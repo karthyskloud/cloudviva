@@ -5,7 +5,8 @@ import { Shield, Loader2, ArrowRight, AlertTriangle, CheckCircle, XCircle, Trash
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const SAMPLE_DOCKERFILE = `FROM node:14
+const SAMPLES: Record<string, string> = {
+  "Dockerfile": `FROM node:14
 WORKDIR /app
 COPY . .
 RUN npm install
@@ -13,7 +14,145 @@ EXPOSE 3000
 ENV NODE_ENV=development
 ENV DB_PASSWORD=mysecretpassword123
 USER root
-CMD ["node", "server.js"]`;
+CMD ["node", "server.js"]`,
+
+  "Kubernetes manifest": `apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - name: web-app
+        image: myapp:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_PASSWORD
+          value: "admin123"
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: web-app`,
+
+  "CI/CD pipeline": `name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t myapp .
+
+    - name: Login to Docker Hub
+      run: echo "\${{ secrets.DOCKER_PASSWORD }}" | docker login -u admin --password-stdin
+
+    - name: Push image
+      run: docker push myapp:latest
+
+    - name: Deploy to server
+      run: |
+        ssh root@\${{ secrets.SERVER_IP }} "
+          docker pull myapp:latest &&
+          docker stop app || true &&
+          docker run -d --name app -p 80:80 --privileged myapp:latest
+        "`,
+
+  "Terraform configuration": `provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "data" {
+  bucket = "company-prod-data"
+}
+
+resource "aws_s3_bucket_public_access_block" "data" {
+  bucket = aws_s3_bucket.data.id
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_security_group" "web" {
+  name = "web-sg"
+  ingress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_db_instance" "main" {
+  engine         = "mysql"
+  instance_class = "db.t3.micro"
+  username       = "admin"
+  password       = "mysecretpassword"
+  publicly_accessible = true
+  skip_final_snapshot = true
+}`,
+
+  "Docker Compose file": `version: '3'
+services:
+  web:
+    image: myapp:latest
+    ports:
+      - "80:80"
+    environment:
+      - DB_PASSWORD=admin123
+      - SECRET_KEY=hardcoded-secret
+    privileged: true
+    volumes:
+      - /:/host
+    restart: always
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: appdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"`,
+};
 
 const CONTENT_TYPES = [
   { value: "Dockerfile", label: "Dockerfile" },
@@ -150,7 +289,7 @@ export default function ScorePage() {
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#22c55e" }} />
               <span className="ml-2 text-xs" style={{ color: "var(--muted)", fontFamily: "var(--font-geist-mono)" }}>{type}</span>
             </div>
-            <button onClick={() => { setContent(SAMPLE_DOCKERFILE); setType("Dockerfile"); }}
+            <button onClick={() => setContent(SAMPLES[type] || "")}
               className="text-xs px-2 py-1 rounded transition-all hover:text-white"
               style={{ color: "var(--muted)", background: "rgba(255,255,255,0.04)" }}>
               Load sample
