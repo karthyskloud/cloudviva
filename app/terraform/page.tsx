@@ -68,7 +68,7 @@ const riskColors: Record<RiskLevel, string> = {
 const actionIcons: Record<string, React.ReactNode> = {
   destroy: <XCircle size={14} style={{ color: "#ef4444" }} />,
   create:  <CheckCircle size={14} style={{ color: "#22c55e" }} />,
-  update:  <Info size={14} style={{ color: "#6366f1" }} />,
+  update:  <Info size={14} style={{ color: "#0ea5e9" }} />,
   replace: <AlertTriangle size={14} style={{ color: "#f97316" }} />,
 };
 
@@ -107,7 +107,7 @@ export default function TerraformPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-              style={{ background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.3)", color: "var(--accent)" }}>
+              style={{ background: "rgba(14,165,233,0.15)", border: "1px solid rgba(14,165,233,0.3)", color: "var(--accent)" }}>
               <FileCode2 size={18} />
             </div>
             <div>

@@ -1,15 +1,23 @@
 import Link from "next/link";
-import { Shield } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
     <footer className="border-t mt-24" style={{ borderColor: "var(--border)" }}>
       <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 font-semibold text-white">
-          <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: "var(--accent)" }}>
-            <Shield size={12} />
-          </div>
-          <span>CloudViva</span>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/cloudviva.png"
+            alt="CloudViva"
+            width={36}
+            height={36}
+            className="rounded-full object-cover"
+            style={{
+              border: "2px solid rgba(14, 165, 233, 0.5)",
+              boxShadow: "0 0 10px rgba(14, 165, 233, 0.3)",
+            }}
+          />
+          <span className="font-semibold text-white text-sm">CloudViva</span>
         </Link>
         <p className="text-sm" style={{ color: "var(--muted)" }}>
           DevSecOps Intelligence for modern teams.

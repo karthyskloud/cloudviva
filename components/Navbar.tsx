@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Shield } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -14,11 +14,19 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b" style={{ borderColor: "var(--border)" }}>
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-semibold text-white">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "var(--accent)" }}>
-            <Shield size={14} />
-          </div>
-          <span>CloudViva</span>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/cloudviva.png"
+            alt="CloudViva"
+            width={44}
+            height={44}
+            className="rounded-full object-cover"
+            style={{
+              border: "2px solid rgba(14, 165, 233, 0.5)",
+              boxShadow: "0 0 12px rgba(14, 165, 233, 0.4)",
+            }}
+          />
+          <span className="font-semibold text-white text-sm">CloudViva</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1">
@@ -29,7 +37,7 @@ export default function Navbar() {
               className="px-3 py-1.5 rounded-md text-sm transition-all"
               style={{
                 color: pathname === l.href ? "white" : "var(--muted)",
-                background: pathname === l.href ? "rgba(99,102,241,0.15)" : "transparent",
+                background: pathname === l.href ? "rgba(14,165,233,0.15)" : "transparent",
               }}
             >
               {l.label}

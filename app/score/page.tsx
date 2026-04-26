@@ -51,7 +51,7 @@ interface ScoreResult {
 
 const gradeColors: Record<string, string> = {
   A: "#22c55e",
-  B: "#6366f1",
+  B: "#0ea5e9",
   C: "#eab308",
   D: "#f97316",
   F: "#ef4444",
@@ -100,7 +100,7 @@ export default function ScorePage() {
 
   const scoreColor = result
     ? result.overallScore >= 90 ? "#22c55e"
-    : result.overallScore >= 70 ? "#6366f1"
+    : result.overallScore >= 70 ? "#0ea5e9"
     : result.overallScore >= 50 ? "#eab308"
     : result.overallScore >= 30 ? "#f97316"
     : "#ef4444"
@@ -114,7 +114,7 @@ export default function ScorePage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-              style={{ background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.3)", color: "var(--accent)" }}>
+              style={{ background: "rgba(14,165,233,0.15)", border: "1px solid rgba(14,165,233,0.3)", color: "var(--accent)" }}>
               <Shield size={18} />
             </div>
             <div>
@@ -131,8 +131,8 @@ export default function ScorePage() {
             <button key={t.value} onClick={() => setType(t.value)}
               className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
               style={{
-                background: type === t.value ? "rgba(99,102,241,0.2)" : "rgba(255,255,255,0.04)",
-                border: `1px solid ${type === t.value ? "rgba(99,102,241,0.5)" : "var(--border)"}`,
+                background: type === t.value ? "rgba(14,165,233,0.2)" : "rgba(255,255,255,0.04)",
+                border: `1px solid ${type === t.value ? "rgba(14,165,233,0.5)" : "var(--border)"}`,
                 color: type === t.value ? "white" : "var(--muted)",
               }}>
               {t.label}

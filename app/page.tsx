@@ -22,20 +22,20 @@ export default function Home() {
       <section className="relative flex flex-col items-center justify-center text-center pt-40 pb-24 px-6 grid-bg overflow-hidden">
         {/* Glow orbs */}
         <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%)" }} />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%)" }} />
 
         <motion.div {...fadeUp(0)}
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6"
-          style={{ background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.3)", color: "var(--accent)" }}>
+          style={{ background: "rgba(14,165,233,0.12)", border: "1px solid rgba(14,165,233,0.3)", color: "var(--accent)" }}>
           <Zap size={11} /> AI-Powered DevSecOps Intelligence
         </motion.div>
 
         <motion.h1 {...fadeUp(1)}
           className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-tight max-w-4xl">
           Understand your{" "}
-          <span style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <span style={{ background: "linear-gradient(135deg, #0ea5e9, #22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             infrastructure
           </span>{" "}
           before it breaks you
@@ -51,7 +51,7 @@ export default function Home() {
           className="mt-10 flex flex-col sm:flex-row items-center gap-3">
           <Link href="/terraform"
             className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-white transition-all hover:opacity-90"
-            style={{ background: "var(--accent)", boxShadow: "0 0 30px rgba(99,102,241,0.4)" }}>
+            style={{ background: "var(--accent)", boxShadow: "0 0 30px rgba(14,165,233,0.4)" }}>
             Explain my Terraform Plan <ArrowRight size={16} />
           </Link>
           <Link href="/score"
@@ -64,7 +64,7 @@ export default function Home() {
         {/* Terminal preview */}
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }}
           className="mt-16 w-full max-w-3xl glass rounded-2xl overflow-hidden animate-float"
-          style={{ border: "1px solid rgba(99,102,241,0.3)", boxShadow: "0 0 60px rgba(99,102,241,0.1)" }}>
+          style={{ border: "1px solid rgba(14,165,233,0.3)", boxShadow: "0 0 60px rgba(14,165,233,0.1)" }}>
           <div className="flex items-center gap-2 px-4 py-3 border-b" style={{ borderColor: "var(--border)", background: "rgba(0,0,0,0.3)" }}>
             <div className="w-3 h-3 rounded-full" style={{ background: "#ef4444" }} />
             <div className="w-3 h-3 rounded-full" style={{ background: "#eab308" }} />
@@ -121,7 +121,7 @@ export default function Home() {
               style={{ borderColor: "var(--border)" }}>
               <div className="flex items-start justify-between">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center"
-                  style={{ background: "rgba(99,102,241,0.15)", color: "var(--accent)", border: "1px solid rgba(99,102,241,0.3)" }}>
+                  style={{ background: "rgba(14,165,233,0.15)", color: "var(--accent)", border: "1px solid rgba(14,165,233,0.3)" }}>
                   {tool.icon}
                 </div>
                 <span className="text-xs font-mono px-2 py-1 rounded" style={{ color: "var(--muted)", background: "rgba(255,255,255,0.04)" }}>
@@ -164,9 +164,9 @@ export default function Home() {
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: i * 0.12 }}
               className="relative p-6 rounded-2xl glass flex flex-col gap-3">
-              <span className="text-5xl font-bold" style={{ color: "rgba(99,102,241,0.15)", fontFamily: "var(--font-geist-mono)" }}>{s.step}</span>
+              <span className="text-5xl font-bold" style={{ color: "rgba(14,165,233,0.15)", fontFamily: "var(--font-geist-mono)" }}>{s.step}</span>
               <div className="w-9 h-9 rounded-lg flex items-center justify-center -mt-2"
-                style={{ background: "rgba(99,102,241,0.12)", color: "var(--accent)" }}>
+                style={{ background: "rgba(14,165,233,0.12)", color: "var(--accent)" }}>
                 {s.icon}
               </div>
               <h3 className="font-semibold text-white">{s.title}</h3>
@@ -193,7 +193,7 @@ export default function Home() {
               viewport={{ once: true }} transition={{ delay: i * 0.1 }}
               className="p-5 rounded-xl glass flex flex-col gap-3">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: "rgba(99,102,241,0.1)", color: "var(--accent)" }}>
+                style={{ background: "rgba(14,165,233,0.1)", color: "var(--accent)" }}>
                 {c.icon}
               </div>
               <h4 className="font-semibold text-white text-sm">{c.title}</h4>
@@ -207,7 +207,7 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 py-24">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="relative rounded-3xl overflow-hidden p-12 text-center glow-border"
-          style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(139,92,246,0.05) 100%)" }}>
+          style={{ background: "linear-gradient(135deg, rgba(14,165,233,0.08) 0%, rgba(139,92,246,0.05) 100%)" }}>
           <h2 className="text-3xl md:text-4xl font-bold text-white">Start for free. No signup.</h2>
           <p className="mt-4 text-base" style={{ color: "var(--muted)" }}>
             Paste a terraform plan or drop a repo URL. See results in seconds.
@@ -215,7 +215,7 @@ export default function Home() {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link href="/terraform"
               className="flex items-center gap-2 px-7 py-3 rounded-xl font-medium text-white transition-all hover:opacity-90"
-              style={{ background: "var(--accent)", boxShadow: "0 0 30px rgba(99,102,241,0.4)" }}>
+              style={{ background: "var(--accent)", boxShadow: "0 0 30px rgba(14,165,233,0.4)" }}>
               Explain a Terraform Plan <ArrowRight size={16} />
             </Link>
             <Link href="/score"
