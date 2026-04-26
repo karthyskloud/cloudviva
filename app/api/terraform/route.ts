@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
-      max_tokens: 2048,
+      max_tokens: 4096,
       system: `You are a senior DevOps engineer and cloud security expert.
 You analyze terraform plan output and explain it clearly.
 Always respond with valid JSON matching this exact structure:
@@ -52,7 +52,12 @@ Rules:
       return Response.json({ error: "Could not parse AI response." }, { status: 500 });
     }
 
-    const result = JSON.parse(jsonMatch[0]);
+    let result;
+    try {
+      result = JSON.parse(jsonMatch[0]);
+    } catch {
+      return Response.json({ error: "AI response was too long and got cut off. Try with a shorter input." }, { status: 500 });
+    }
     return Response.json(result);
   } catch (err) {
     console.error(err);
