@@ -209,30 +209,55 @@ const statusIcon = (s: Status) => {
   return <XCircle size={14} style={{ color: "#ef4444" }} />;
 };
 
+const LOADING_STEPS = [
+  "Scanning configuration...",
+  "Checking security policies...",
+  "Identifying vulnerabilities...",
+  "Calculating risk score...",
+  "Generating fixes...",
+];
+
 export default function ScorePage() {
   const [content, setContent] = useState("");
   const [type, setType] = useState("Dockerfile");
   const [loading, setLoading] = useState(false);
+  const [loadingStep, setLoadingStep] = useState(0);
   const [result, setResult] = useState<ScoreResult | null>(null);
   const [error, setError] = useState("");
 
   async function analyze() {
     if (!content.trim()) return;
     setLoading(true);
+    setLoadingStep(0);
     setError("");
     setResult(null);
+    const stepInterval = setInterval(() => setLoadingStep(s => Math.min(s + 1, LOADING_STEPS.length - 1)), 1800);
     try {
       const res = await fetch("/api/score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content, type }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Analysis failed");
-      setResult(data);
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Analysis failed");
+      }
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No response stream");
+      const decoder = new TextDecoder();
+      let fullText = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        fullText += decoder.decode(value, { stream: true });
+      }
+      const jsonMatch = fullText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error("Could not parse response");
+      setResult(JSON.parse(jsonMatch[0]));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
+      clearInterval(stepInterval);
       setLoading(false);
     }
   }
@@ -315,7 +340,7 @@ export default function ScorePage() {
           <button onClick={analyze} disabled={loading || !content.trim()}
             className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-medium text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
             style={{ background: "var(--accent)" }}>
-            {loading ? <><Loader2 size={15} className="animate-spin" /> Scoring...</> : <>Get Security Score <ArrowRight size={15} /></>}
+            {loading ? <><Loader2 size={15} className="animate-spin" /> {LOADING_STEPS[loadingStep]}</> : <>Get Security Score <ArrowRight size={15} /></>}
           </button>
           {content && (
             <button onClick={() => { setContent(""); setResult(null); setError(""); }}

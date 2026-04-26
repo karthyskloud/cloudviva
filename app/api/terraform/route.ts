@@ -10,7 +10,7 @@ export async function POST(request: Request) {
       return Response.json({ error: "Please provide a valid terraform plan output." }, { status: 400 });
     }
 
-    const message = await client.messages.create({
+    const stream = client.messages.stream({
       model: "claude-sonnet-4-6",
       max_tokens: 4096,
       system: `You are a senior DevOps engineer and cloud security expert.
@@ -27,43 +27,35 @@ Always respond with valid JSON matching this exact structure:
   "recommendations": ["recommendation 1", "recommendation 2"],
   "safeToApply": true | false
 }
-
 Rules:
 - riskLevel "critical" = data destruction, security exposure, irreversible actions
 - riskLevel "high" = significant changes to security groups, IAM, databases
 - riskLevel "medium" = configuration changes with some risk
 - riskLevel "low" = safe updates and additions
 - Be specific and practical. Real engineers will act on this.`,
-      messages: [
-        {
-          role: "user",
-          content: `Analyze this terraform plan and return JSON only:\n\n${plan.slice(0, 8000)}`,
-        },
-      ],
+      messages: [{ role: "user", content: `Analyze this terraform plan and return JSON only:\n\n${plan.slice(0, 8000)}` }],
     });
 
-    const content = message.content[0];
-    if (content.type !== "text") {
-      return Response.json({ error: "Unexpected response from AI." }, { status: 500 });
-    }
+    const encoder = new TextEncoder();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of stream) {
+            if (chunk.type === "content_block_delta" && chunk.delta.type === "text_delta") {
+              controller.enqueue(encoder.encode(chunk.delta.text));
+            }
+          }
+        } finally {
+          controller.close();
+        }
+      },
+    });
 
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      return Response.json({ error: "Could not parse AI response." }, { status: 500 });
-    }
-
-    let result;
-    try {
-      result = JSON.parse(jsonMatch[0]);
-    } catch {
-      return Response.json({ error: "AI response was too long and got cut off. Try with a shorter input." }, { status: 500 });
-    }
-    return Response.json(result);
+    return new Response(readable, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
   } catch (err) {
-    console.error(err);
     const msg = err instanceof Error ? err.message : "";
     if (msg.includes("401") || msg.includes("authentication") || msg.includes("API key")) {
-      return Response.json({ error: "Invalid or missing Anthropic API key. Add ANTHROPIC_API_KEY to your .env.local file and restart the server." }, { status: 500 });
+      return Response.json({ error: "Invalid or missing Anthropic API key." }, { status: 500 });
     }
     return Response.json({ error: `Analysis failed: ${msg || "Unknown error"}` }, { status: 500 });
   }
