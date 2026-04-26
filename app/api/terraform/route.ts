@@ -27,13 +27,21 @@ export async function POST(request: Request) {
       );
     }
 
-    const { plan } = await request.json();
+    const { plan, toolType } = await request.json();
     if (!plan || typeof plan !== "string" || plan.trim().length < 10) {
-      return Response.json({ error: "Please provide a valid terraform plan output." }, { status: 400 });
+      return Response.json({ error: "Please provide a valid plan output." }, { status: 400 });
     }
 
-    // Return cached result instantly if available
-    const cacheKey = `terraform:${plan.trim()}`;
+    const toolNames: Record<string, string> = {
+      terraform: "Terraform",
+      cloudformation: "AWS CloudFormation",
+      arm: "Azure ARM / Bicep",
+      pulumi: "Pulumi",
+      ansible: "Ansible",
+    };
+    const toolName = toolNames[toolType] || "Infrastructure as Code";
+
+    const cacheKey = `iac:${toolType}:${plan.trim()}`;
     const cached = getCached(cacheKey);
     if (cached) {
       return Response.json(cached, { headers: { "X-Cache": "HIT", "X-Remaining": String(remaining) } });
@@ -43,14 +51,14 @@ export async function POST(request: Request) {
       model: "claude-sonnet-4-6",
       max_tokens: 4096,
       system: `You are a senior DevOps engineer and cloud security expert.
-You analyze terraform plan output and explain it clearly.
+You analyze ${toolName} plan/preview output and explain it clearly.
 Always respond with valid JSON matching this exact structure:
 {
   "summary": "1-2 sentence plain English summary of what this plan will do",
   "riskScore": <number 1-10>,
   "riskLevel": "critical" | "high" | "medium" | "low",
   "changes": [
-    { "action": "create|update|destroy|replace", "resource": "resource name", "explanation": "plain English explanation", "risk": "critical|high|medium|low" }
+    { "action": "create|update|destroy|replace|modify|add|remove", "resource": "resource name", "explanation": "plain English explanation", "risk": "critical|high|medium|low" }
   ],
   "warnings": ["warning 1", "warning 2"],
   "recommendations": ["recommendation 1", "recommendation 2"],
@@ -62,7 +70,7 @@ Rules:
 - riskLevel "medium" = configuration changes with some risk
 - riskLevel "low" = safe updates and additions
 - Be specific and practical. Real engineers will act on this.`,
-      messages: [{ role: "user", content: `Analyze this terraform plan and return JSON only:\n\n${plan.slice(0, 8000)}` }],
+      messages: [{ role: "user", content: `Analyze this ${toolName} plan output and return JSON only:\n\n${plan.slice(0, 8000)}` }],
     });
 
     // Collect full streamed text, cache result, then stream to client

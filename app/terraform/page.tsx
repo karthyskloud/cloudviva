@@ -1,11 +1,21 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileCode2, AlertTriangle, CheckCircle, XCircle, Info, Loader2, ArrowRight, Trash2, ShieldCheck } from "lucide-react";
+import { FileCode2, AlertTriangle, CheckCircle, XCircle, Info, Loader2, ArrowRight, Trash2, ShieldCheck, Terminal } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const SAMPLE = `Terraform used the selected providers to generate the following execution plan.
+const TOOLS = [
+  {
+    id: "terraform",
+    label: "Terraform",
+    command: `# Generate and display the plan
+terraform init
+terraform plan -out=tfplan
+
+# Or paste directly from:
+terraform plan`,
+    sample: `Terraform used the selected providers to generate the following execution plan.
 
 Plan: 3 to add, 2 to change, 1 to destroy.
 
@@ -30,7 +40,185 @@ Plan: 3 to add, 2 to change, 1 to destroy.
   + resource "aws_instance" "app" {
       + ami           = "ami-0c55b159cbfafe1f0"
       + instance_type = "t3.medium"
-    }`;
+    }`,
+  },
+  {
+    id: "cloudformation",
+    label: "CloudFormation",
+    command: `# Step 1: Create a change set
+aws cloudformation create-change-set \\
+  --stack-name my-stack \\
+  --template-body file://template.yaml \\
+  --change-set-name my-changes
+
+# Step 2: Describe and paste the output
+aws cloudformation describe-change-set \\
+  --stack-name my-stack \\
+  --change-set-name my-changes`,
+    sample: `{
+  "StackName": "production-stack",
+  "ChangeSetName": "update-rds-instance",
+  "ExecutionStatus": "AVAILABLE",
+  "Changes": [
+    {
+      "Type": "Resource",
+      "ResourceChange": {
+        "Action": "Modify",
+        "LogicalResourceId": "RDSInstance",
+        "ResourceType": "AWS::RDS::DBInstance",
+        "Replacement": "True",
+        "Details": [
+          {
+            "Target": { "Attribute": "Properties", "Name": "DBInstanceClass" },
+            "Evaluation": "Static",
+            "ChangeSource": "DirectModification"
+          }
+        ]
+      }
+    },
+    {
+      "Type": "Resource",
+      "ResourceChange": {
+        "Action": "Add",
+        "LogicalResourceId": "NewS3Bucket",
+        "ResourceType": "AWS::S3::Bucket"
+      }
+    },
+    {
+      "Type": "Resource",
+      "ResourceChange": {
+        "Action": "Remove",
+        "LogicalResourceId": "OldLambdaFunction",
+        "ResourceType": "AWS::Lambda::Function"
+      }
+    }
+  ]
+}`,
+  },
+  {
+    id: "arm",
+    label: "Azure ARM / Bicep",
+    command: `# For ARM template
+az deployment group what-if \\
+  --resource-group myResourceGroup \\
+  --template-file azuredeploy.json \\
+  --parameters @parameters.json
+
+# For Bicep
+az deployment group what-if \\
+  --resource-group myResourceGroup \\
+  --template-file main.bicep`,
+    sample: `Resource and property changes are indicated with these symbols:
+  + Create
+  ~ Modify
+  - Delete
+  x Ignore
+  = Nochange
+  * Deploy
+
+The deployment will update the following scope:
+
+Scope: /subscriptions/xxxxx/resourceGroups/myResourceGroup
+
+  ~ Microsoft.Compute/virtualMachines/myVM [2023-07-01]
+    ~ properties.hardwareProfile.vmSize: "Standard_D2s_v3" => "Standard_D4s_v3"
+    ~ properties.storageProfile.osDisk.diskSizeGB: 128 => 256
+
+  + Microsoft.Network/networkSecurityGroups/newNSG [2023-07-01]
+    + location: "australiaeast"
+    + properties.securityRules: [
+        + {
+            + name: "allow-all-inbound"
+            + properties.access: "Allow"
+            + properties.protocol: "*"
+            + properties.sourceAddressPrefix: "*"
+            + properties.destinationPortRange: "*"
+          }
+      ]
+
+  - Microsoft.Storage/storageAccounts/oldStorage [2023-07-01]`,
+  },
+  {
+    id: "pulumi",
+    label: "Pulumi",
+    command: `# Preview changes before deploying
+pulumi preview
+
+# For more detail
+pulumi preview --diff
+
+# Save output and paste below
+pulumi preview 2>&1`,
+    sample: `Previewing update (production):
+
+     Type                          Name                    Plan
+     pulumi:pulumi:Stack           my-app-production
+ +   ├─ aws:ec2:SecurityGroup      web-sg                  create
+ ~   ├─ aws:rds:Instance           main-db                 update
+ -   ├─ aws:s3:Bucket              old-assets              delete
+ ~   └─ aws:ecs:Service            app-service             update
+
+Resources:
+    + 1 to create
+    ~ 2 to update
+    - 1 to delete
+    4 changes. 12 unchanged
+
+Do you want to perform this update?
+> yes
+  no
+  details`,
+  },
+  {
+    id: "ansible",
+    label: "Ansible",
+    command: `# Dry run — shows what WOULD change without making changes
+ansible-playbook site.yml --check --diff
+
+# Against specific hosts
+ansible-playbook site.yml --check --diff \\
+  --limit production-servers
+
+# Paste the full output below`,
+    sample: `PLAY [Configure web servers] ***************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [web01.prod]
+ok: [web02.prod]
+
+TASK [Install nginx] ***********************************************************
+changed: [web01.prod]
+changed: [web02.prod]
+
+TASK [Update nginx config] *****************************************************
+--- before: /etc/nginx/nginx.conf
++++ after: /etc/nginx/nginx.conf
+@@ -1,5 +1,5 @@
+ worker_processes auto;
+-worker_connections 1024;
++worker_connections 4096;
++gzip on;
+
+changed: [web01.prod]
+changed: [web02.prod]
+
+TASK [Ensure firewall allows HTTP] *********************************************
+ok: [web01.prod]
+changed: [web02.prod]
+
+PLAY RECAP *********************************************************************
+web01.prod  : ok=4  changed=2  unreachable=0  failed=0
+web02.prod  : ok=4  changed=3  unreachable=0  failed=0`,
+  },
+];
+
+const LOADING_STEPS = [
+  "Reading plan output...",
+  "Identifying resource changes...",
+  "Evaluating risk levels...",
+  "Checking for destructive actions...",
+  "Generating recommendations...",
+];
 
 type RiskLevel = "critical" | "high" | "medium" | "low";
 
@@ -41,12 +229,6 @@ interface Change {
   risk: RiskLevel;
 }
 
-interface Fix {
-  priority: RiskLevel;
-  title: string;
-  description: string;
-}
-
 interface AnalysisResult {
   summary: string;
   riskScore: number;
@@ -55,7 +237,6 @@ interface AnalysisResult {
   warnings: string[];
   recommendations: string[];
   safeToApply: boolean;
-  fixes?: Fix[];
 }
 
 const riskColors: Record<RiskLevel, string> = {
@@ -67,25 +248,23 @@ const riskColors: Record<RiskLevel, string> = {
 
 const actionIcons: Record<string, React.ReactNode> = {
   destroy: <XCircle size={14} style={{ color: "#ef4444" }} />,
+  delete:  <XCircle size={14} style={{ color: "#ef4444" }} />,
+  remove:  <XCircle size={14} style={{ color: "#ef4444" }} />,
   create:  <CheckCircle size={14} style={{ color: "#22c55e" }} />,
+  add:     <CheckCircle size={14} style={{ color: "#22c55e" }} />,
   update:  <Info size={14} style={{ color: "#0ea5e9" }} />,
+  modify:  <Info size={14} style={{ color: "#0ea5e9" }} />,
   replace: <AlertTriangle size={14} style={{ color: "#f97316" }} />,
 };
 
-const LOADING_STEPS = [
-  "Reading terraform plan...",
-  "Identifying resource changes...",
-  "Evaluating risk levels...",
-  "Checking for destructive actions...",
-  "Generating recommendations...",
-];
-
 export default function TerraformPage() {
+  const [selectedTool, setSelectedTool] = useState(TOOLS[0]);
   const [plan, setPlan] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState("");
+  const [showCommand, setShowCommand] = useState(false);
 
   async function analyze() {
     if (!plan.trim()) return;
@@ -98,13 +277,12 @@ export default function TerraformPage() {
       const res = await fetch("/api/terraform", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan }),
+        body: JSON.stringify({ plan, toolType: selectedTool.id }),
       });
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Analysis failed");
       }
-      // Cached responses come back as JSON directly
       if (res.headers.get("X-Cache") === "HIT") {
         setResult(await res.json());
       } else {
@@ -133,37 +311,78 @@ export default function TerraformPage() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 pt-28 pb-16">
+
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center"
               style={{ background: "rgba(14,165,233,0.15)", border: "1px solid rgba(14,165,233,0.3)", color: "var(--accent)" }}>
               <FileCode2 size={18} />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Terraform Plan Explainer</h1>
-              <p className="text-sm" style={{ color: "var(--muted)" }}>Paste your plan output — AI explains every change in plain English</p>
+              <h1 className="text-2xl font-bold text-white">IaC Plan Explainer</h1>
+              <p className="text-sm" style={{ color: "var(--muted)" }}>AI explains your infrastructure changes in plain English — for every IaC tool</p>
             </div>
           </div>
         </motion.div>
 
+        {/* Tool selector */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
+          className="flex items-center gap-2 flex-wrap mb-4">
+          {TOOLS.map((t) => (
+            <button key={t.id} onClick={() => { setSelectedTool(t); setPlan(""); setResult(null); setError(""); setShowCommand(false); }}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+              style={{
+                background: selectedTool.id === t.id ? "rgba(14,165,233,0.2)" : "rgba(255,255,255,0.04)",
+                border: `1px solid ${selectedTool.id === t.id ? "rgba(14,165,233,0.5)" : "var(--border)"}`,
+                color: selectedTool.id === t.id ? "white" : "var(--muted)",
+              }}>
+              {t.label}
+            </button>
+          ))}
+        </motion.div>
+
+        {/* How to get the output */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="mb-4">
+          <button onClick={() => setShowCommand(!showCommand)}
+            className="flex items-center gap-2 text-xs px-3 py-2 rounded-lg transition-all hover:text-white w-full text-left"
+            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", color: "var(--muted)" }}>
+            <Terminal size={13} style={{ color: "var(--accent)" }} />
+            <span>How to get {selectedTool.label} plan output</span>
+            <span className="ml-auto">{showCommand ? "▲" : "▼"}</span>
+          </button>
+          <AnimatePresence>
+            {showCommand && (
+              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden">
+                <pre className="mt-1 p-4 rounded-b-xl text-xs overflow-x-auto"
+                  style={{ background: "rgba(0,0,0,0.4)", color: "#22c55e", fontFamily: "var(--font-geist-mono)", border: "1px solid var(--border)", borderTop: "none" }}>
+                  {selectedTool.command}
+                </pre>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
         {/* Disclaimer */}
-        <div className="flex items-start gap-3 px-4 py-3 rounded-xl mb-5 text-xs" style={{ background: "rgba(14,165,233,0.06)", border: "1px solid rgba(14,165,233,0.2)", color: "var(--muted)" }}>
+        <div className="flex items-start gap-3 px-4 py-3 rounded-xl mb-5 text-xs"
+          style={{ background: "rgba(14,165,233,0.06)", border: "1px solid rgba(14,165,233,0.2)", color: "var(--muted)" }}>
           <ShieldCheck size={14} className="shrink-0 mt-0.5" style={{ color: "var(--accent)" }} />
           <span>Your data is <strong className="text-white">never stored or logged</strong>. Content is sent directly to AI for real-time analysis and discarded immediately. Do not paste credentials or secrets. <a href="/terms" className="hover:text-white underline transition-colors">Terms of Use</a></span>
         </div>
 
         {/* Input */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
           className="glass rounded-2xl overflow-hidden mb-6">
           <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#ef4444" }} />
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#eab308" }} />
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#22c55e" }} />
-              <span className="ml-2 text-xs" style={{ color: "var(--muted)", fontFamily: "var(--font-geist-mono)" }}>terraform plan output</span>
+              <span className="ml-2 text-xs" style={{ color: "var(--muted)", fontFamily: "var(--font-geist-mono)" }}>{selectedTool.label} plan output</span>
             </div>
-            <button onClick={() => setPlan(SAMPLE)} className="text-xs px-2 py-1 rounded transition-all hover:text-white"
+            <button onClick={() => setPlan(selectedTool.sample)}
+              className="text-xs px-2 py-1 rounded transition-all hover:text-white"
               style={{ color: "var(--muted)", background: "rgba(255,255,255,0.04)" }}>
               Load sample
             </button>
@@ -171,16 +390,10 @@ export default function TerraformPage() {
           <textarea
             value={plan}
             onChange={(e) => setPlan(e.target.value)}
-            placeholder="Paste your terraform plan output here..."
+            placeholder={`Paste your ${selectedTool.label} plan output here...`}
             rows={12}
             className="w-full p-4 text-sm resize-none outline-none"
-            style={{
-              background: "transparent",
-              color: "var(--text)",
-              fontFamily: "var(--font-geist-mono)",
-              fontSize: "12px",
-              lineHeight: "1.6",
-            }}
+            style={{ background: "transparent", color: "var(--text)", fontFamily: "var(--font-geist-mono)", fontSize: "12px", lineHeight: "1.6" }}
           />
         </motion.div>
 
@@ -212,9 +425,8 @@ export default function TerraformPage() {
         {/* Results */}
         <AnimatePresence>
           {result && (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-              className="space-y-4">
-              {/* Summary card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
+              {/* Summary */}
               <div className="glass rounded-2xl p-6">
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div>
@@ -231,9 +443,7 @@ export default function TerraformPage() {
                   </div>
                 </div>
                 <div className={`flex items-center gap-2 text-sm px-3 py-2 rounded-lg ${result.safeToApply ? "risk-low" : "risk-critical"}`}>
-                  {result.safeToApply
-                    ? <><CheckCircle size={14} /> Safe to apply</>
-                    : <><XCircle size={14} /> Review required before applying</>}
+                  {result.safeToApply ? <><CheckCircle size={14} /> Safe to apply</> : <><XCircle size={14} /> Review required before applying</>}
                 </div>
               </div>
 
@@ -244,13 +454,10 @@ export default function TerraformPage() {
                   <div className="space-y-3">
                     {result.changes.map((c, i) => (
                       <div key={i} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
-                        {actionIcons[c.action] || <Info size={14} />}
+                        {actionIcons[c.action.toLowerCase()] || <Info size={14} />}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-sm font-medium text-white"
-                              style={{ fontFamily: "var(--font-geist-mono)", fontSize: "12px" }}>
-                              {c.resource}
-                            </span>
+                            <span className="text-sm font-medium text-white" style={{ fontFamily: "var(--font-geist-mono)", fontSize: "12px" }}>{c.resource}</span>
                             <span className="text-xs px-1.5 py-0.5 rounded capitalize"
                               style={{ background: `${riskColors[c.risk]}15`, color: riskColors[c.risk], border: `1px solid ${riskColors[c.risk]}30` }}>
                               {c.action}

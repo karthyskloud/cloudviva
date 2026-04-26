@@ -98,11 +98,11 @@ export default function Home() {
           {[
             {
               icon: <FileCode2 size={22} />,
-              title: "Terraform Plan Explainer",
-              desc: "Paste your terraform plan output. AI reads it and tells you in plain English exactly what will change, what's risky, and what could break production.",
+              title: "IaC Plan Explainer",
+              desc: "Paste your Terraform, CloudFormation, Azure ARM, Pulumi or Ansible plan output. AI explains every change in plain English with risk levels and recommendations.",
               href: "/terraform",
               cta: "Explain a Plan",
-              features: ["Plain English summaries", "Risk level detection", "Destruction warnings", "Cost impact analysis"],
+              features: ["Terraform, CloudFormation, ARM, Pulumi", "Plain English summaries", "Risk level detection", "Destruction warnings"],
               badge: "Tool 01",
             },
             {

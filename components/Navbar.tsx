@@ -7,7 +7,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const links = [
-    { href: "/terraform", label: "Terraform Explainer" },
+    { href: "/terraform", label: "IaC Plan Explainer" },
     { href: "/score", label: "DevSecOps Score" },
   ];
 
