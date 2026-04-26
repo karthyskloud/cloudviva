@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Loader2, ArrowRight, AlertTriangle, CheckCircle, XCircle, Trash2, Upload } from "lucide-react";
+import { Shield, Loader2, ArrowRight, AlertTriangle, CheckCircle, XCircle, Trash2, Upload, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -287,6 +287,12 @@ export default function ScorePage() {
             </div>
           </div>
         </motion.div>
+
+        {/* Disclaimer */}
+        <div className="flex items-start gap-3 px-4 py-3 rounded-xl mb-5 text-xs" style={{ background: "rgba(14,165,233,0.06)", border: "1px solid rgba(14,165,233,0.2)", color: "var(--muted)" }}>
+          <ShieldCheck size={14} className="shrink-0 mt-0.5" style={{ color: "var(--accent)" }} />
+          <span>Your data is <strong className="text-white">never stored or logged</strong>. Content is sent directly to AI for real-time analysis and discarded immediately. Do not paste credentials or secrets. <a href="/terms" className="hover:text-white underline transition-colors">Terms of Use</a></span>
+        </div>
 
         {/* Type selector */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
