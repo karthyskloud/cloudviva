@@ -104,18 +104,23 @@ export default function TerraformPage() {
         const data = await res.json();
         throw new Error(data.error || "Analysis failed");
       }
-      const reader = res.body?.getReader();
-      if (!reader) throw new Error("No response stream");
-      const decoder = new TextDecoder();
-      let fullText = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        fullText += decoder.decode(value, { stream: true });
+      // Cached responses come back as JSON directly
+      if (res.headers.get("X-Cache") === "HIT") {
+        setResult(await res.json());
+      } else {
+        const reader = res.body?.getReader();
+        if (!reader) throw new Error("No response stream");
+        const decoder = new TextDecoder();
+        let fullText = "";
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          fullText += decoder.decode(value, { stream: true });
+        }
+        const jsonMatch = fullText.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error("Could not parse response");
+        setResult(JSON.parse(jsonMatch[0]));
       }
-      const jsonMatch = fullText.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error("Could not parse response");
-      setResult(JSON.parse(jsonMatch[0]));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
