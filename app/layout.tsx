@@ -6,15 +6,40 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CloudViva — DevSecOps Intelligence",
-  description: "AI-powered Terraform Plan Explainer and DevSecOps Score. Understand your infrastructure before it breaks you.",
-  keywords: ["DevSecOps", "Terraform", "Kubernetes", "Security", "DevOps", "AI"],
+  metadataBase: new URL("https://cloudviva.com.au"),
+  title: {
+    default: "CloudViva | AI DevSecOps Intelligence for Terraform & Cloud Security",
+    template: "%s | CloudViva",
+  },
+  description:
+    "CloudViva helps DevOps and security teams explain infrastructure changes in plain English and score cloud security posture across Terraform, Docker, Kubernetes, and CI/CD.",
+  applicationName: "CloudViva",
+  keywords: [
+    "DevSecOps",
+    "Terraform plan explainer",
+    "Cloud security score",
+    "Kubernetes security",
+    "Docker security review",
+    "CI/CD security audit",
+    "Infrastructure as code analysis",
+    "AI cloud security",
+  ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "CloudViva — DevSecOps Intelligence",
-    description: "AI-powered tools for DevOps engineers. Explain Terraform plans. Score your repo's security posture.",
+    title: "CloudViva | AI DevSecOps Intelligence",
+    description:
+      "Understand your infrastructure before it breaks you with AI-powered Terraform and DevSecOps analysis.",
     url: "https://cloudviva.com.au",
     siteName: "CloudViva",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CloudViva | AI DevSecOps Intelligence",
+    description:
+      "Explain Terraform plans and score your cloud security posture with AI-powered analysis.",
   },
 };
 
