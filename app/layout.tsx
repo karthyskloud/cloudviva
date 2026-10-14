@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+const GOOGLE_SITE_VERIFICATION = "google6665b2ceff379c66";
+
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
@@ -42,13 +44,16 @@ export const metadata: Metadata = {
       "Explain Terraform plans and score your cloud security posture with AI-powered analysis.",
   },
   verification: {
-    google: "google6665b2ceff379c66",
+    google: GOOGLE_SITE_VERIFICATION,
   },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        <meta name="google-site-verification" content={GOOGLE_SITE_VERIFICATION} />
+      </head>
       <body className="min-h-screen flex flex-col antialiased">{children}</body>
     </html>
   );
