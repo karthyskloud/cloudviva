@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const GOOGLE_SITE_VERIFICATION = "google6665b2ceff379c66";
+const GOOGLE_SITE_VERIFICATION = "NG3kojhNAeGCL7DYZ_O91_zKrVFXIP0ZaOqGY0z7GFE";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
