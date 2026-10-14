@@ -5,7 +5,7 @@ import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact CloudViva",
-  description: "Send CloudViva an enquiry about AWS, Terraform, cloud reviews, or DevOps assets.",
+  description: "Send CloudViva an enquiry about cloud infrastructure, security reviews, or DevOps foundations and automation.",
 };
 
 export default async function ContactPage({ searchParams }: PageProps<"/contact">) {

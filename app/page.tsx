@@ -34,16 +34,12 @@ export default function Home() {
 
         <motion.h1 {...fadeUp(1)}
           className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-tight max-w-4xl">
-          Understand your{" "}
-          <span style={{ background: "linear-gradient(135deg, #0ea5e9, #22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            infrastructure
-          </span>{" "}
-          before it breaks you
+          Build and run cloud infrastructure with confidence.
         </motion.h1>
 
         <motion.p {...fadeUp(2)}
           className="mt-6 text-lg max-w-xl leading-relaxed" style={{ color: "var(--muted)" }}>
-          Practical AWS and Terraform support for small teams, backed by free tools
+          Practical cloud infrastructure and DevOps support for small teams, backed by free tools
           that make infrastructure changes easier to understand.
         </motion.p>
 
@@ -75,8 +71,8 @@ export default function Home() {
             <p style={{ color: "var(--muted)" }}>$ terraform plan -out=tfplan &amp;&amp; cloudviva explain tfplan</p>
             <div className="mt-3 space-y-2">
               <p style={{ color: "#22c55e" }}>✓ Analyzing 12 resource changes...</p>
-              <p className="text-white">⚠ <span style={{ color: "#ef4444", fontWeight: 600 }}>CRITICAL:</span> aws_s3_bucket.data will be <span style={{ color: "#ef4444" }}>DESTROYED</span> — this is irreversible</p>
-              <p className="text-white">ℹ <span style={{ color: "#eab308" }}>HIGH:</span> Security group opens port 0-65535 to 0.0.0.0/0</p>
+              <p className="text-white">⚠ <span style={{ color: "#ef4444", fontWeight: 600 }}>CRITICAL:</span> module.database will be <span style={{ color: "#ef4444" }}>REPLACED</span> — data loss is possible</p>
+              <p className="text-white">ℹ <span style={{ color: "#eab308" }}>HIGH:</span> Administrative access is exposed to the public internet</p>
               <p className="text-white">✓ <span style={{ color: "#22c55e" }}>SAFE:</span> 10 resources will be updated with no data loss</p>
               <p className="mt-2" style={{ color: "var(--muted)" }}>→ <span className="text-white">Risk Score: 8.2/10</span> — Review required before applying</p>
             </div>
@@ -90,7 +86,7 @@ export default function Home() {
             <p className="text-xs uppercase tracking-wide font-semibold" style={{ color: "var(--accent)" }}>Hands-on engineering</p>
             <h2 className="mt-2 text-2xl font-semibold text-white">Need a person to fix or review your cloud setup?</h2>
             <p className="mt-2 text-sm max-w-2xl" style={{ color: "var(--muted)" }}>
-              Get scoped AWS, Terraform, CI/CD, and cloud security help, with clear deliverables and a direct handoff.
+              Get scoped cloud infrastructure, CI/CD, and security help, with clear deliverables and a direct handoff.
             </p>
           </div>
           <Link href="/services"

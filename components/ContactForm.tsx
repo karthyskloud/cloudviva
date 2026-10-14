@@ -4,9 +4,10 @@ import { FormEvent, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 const services = [
-  { value: "aws-terraform", label: "AWS or Terraform fix / deployment support" },
-  { value: "cloud-review", label: "AWS cost and security review" },
-  { value: "devops-assets", label: "Reusable DevOps assets" },
+  { value: "cloud-infrastructure", label: "Cloud infrastructure or Terraform support" },
+  { value: "cloud-review", label: "Cloud cost and security review" },
+  { value: "devops-foundation", label: "Set up DevOps practices or CI/CD from scratch" },
+  { value: "devops-assets", label: "Reusable DevOps workflows or templates" },
   { value: "other", label: "Something else" },
 ];
 

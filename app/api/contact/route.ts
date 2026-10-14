@@ -3,9 +3,10 @@ import { checkRateLimit } from "@/lib/ratelimit";
 
 const recipient = "kloudviva@gmail.com";
 const serviceLabels = {
-  "aws-terraform": "AWS or Terraform delivery support",
-  "cloud-review": "AWS cost and security review",
-  "devops-assets": "Reusable DevOps assets",
+  "cloud-infrastructure": "Cloud infrastructure or Terraform support",
+  "cloud-review": "Cloud cost and security review",
+  "devops-foundation": "DevOps and CI/CD foundations",
+  "devops-assets": "Reusable DevOps workflows or templates",
   other: "Other project enquiry",
 };
 

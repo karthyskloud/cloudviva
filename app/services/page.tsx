@@ -5,24 +5,24 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "AWS, Terraform & DevOps Services",
+  title: "Cloud Infrastructure & DevOps Services",
   description:
-    "Scoped AWS and Terraform troubleshooting, cloud cost and security reviews, and reusable DevOps assets for small teams.",
+    "Vendor-neutral cloud infrastructure support, cost and security reviews, DevOps foundations, and reusable automation for small teams.",
 };
 
 const offers = [
   {
     icon: Cloud,
     number: "01",
-    title: "AWS & Terraform delivery support",
-    summary: "Get unstuck on a specific infrastructure task without bringing on a full-time platform team.",
+    title: "Cloud infrastructure & IaC support",
+    summary: "Get unstuck on infrastructure-as-code, deployment, or cloud configuration work without adding a full-time platform team.",
     items: [
-      "Terraform errors, module changes, and plan review",
-      "AWS deployment and infrastructure troubleshooting",
-      "CI/CD workflow improvements and deployment handoff",
+      "Terraform configuration, module changes, and plan review",
+      "Cloud deployment and infrastructure troubleshooting across providers",
+      "Infrastructure changes with a clear implementation handoff",
     ],
     result: "A scoped fix, pull request, or clear implementation plan with handoff notes.",
-    service: "aws-terraform",
+    service: "cloud-infrastructure",
   },
   {
     icon: ShieldCheck,
@@ -30,9 +30,9 @@ const offers = [
     title: "Cloud cost & security review",
     summary: "A focused review of the cloud setup you have today, with findings ordered by impact and effort.",
     items: [
-      "AWS spending patterns and practical cost opportunities",
+      "Cloud spending patterns and practical cost opportunities",
       "IAM access, logging, backups, and exposed services",
-      "Prioritized recommendations and a review call",
+      "Prioritized recommendations across the agreed cloud scope",
     ],
     result: "A written report for the agreed account and scope. This is not a compliance certification.",
     service: "cloud-review",
@@ -40,6 +40,19 @@ const offers = [
   {
     icon: Boxes,
     number: "03",
+    title: "DevOps & CI/CD foundations",
+    summary: "For teams starting without a release process or pipeline, establish a practical foundation that fits your codebase and team.",
+    items: [
+      "Git workflow, pull request checks, and branch protections",
+      "Build and test automation, then deployments for agreed environments",
+      "Secrets handling, release guidance, and a documented handoff",
+    ],
+    result: "A working first pipeline and documented release process, agreed to your scope.",
+    service: "devops-foundation",
+  },
+  {
+    icon: Boxes,
+    number: "04",
     title: "Reusable DevOps assets",
     summary: "Create practical building blocks for your team, based on a real workflow and a defined use case.",
     items: [
@@ -47,7 +60,7 @@ const offers = [
       "GitHub Actions and deployment workflows",
       "Operational checklists and setup documentation",
     ],
-    result: "Assets delivered to an agreed repository with usage notes. No template storefront or checkout.",
+    result: "Assets delivered to an agreed repository with usage notes.",
     service: "devops-assets",
   },
 ];
@@ -61,10 +74,10 @@ export default function ServicesPage() {
           <div className="max-w-6xl mx-auto px-6 pt-32 pb-16">
             <p className="text-sm font-medium" style={{ color: "var(--accent)" }}>CloudViva services</p>
             <h1 className="mt-4 max-w-4xl text-4xl md:text-6xl font-bold leading-tight text-white">
-              AWS and Terraform help, scoped around the work you need done.
+              Cloud infrastructure and DevOps support, scoped around the work you need done.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed" style={{ color: "var(--muted)" }}>
-              Practical support for startups and small teams: fix an infrastructure blocker, understand cloud risks and costs, or build a reusable workflow.
+              Practical support for startups and small teams: establish your first delivery pipeline, fix an infrastructure blocker, review cloud risks and costs, or build reusable automation.
             </p>
             <Link href="/contact"
               className="mt-8 inline-flex items-center gap-2 rounded-lg px-5 py-3 font-medium text-white transition-opacity hover:opacity-90"
