@@ -41,6 +41,9 @@ export const metadata: Metadata = {
     description:
       "Explain Terraform plans and score your cloud security posture with AI-powered analysis.",
   },
+  verification: {
+    google: "google6665b2ceff379c66",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
