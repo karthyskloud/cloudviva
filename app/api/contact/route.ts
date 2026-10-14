@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     const apiKey = process.env.RESEND_API_KEY;
     const from = process.env.RESEND_FROM_EMAIL;
     if (!apiKey || !from) {
-      return Response.json({ error: "Enquiries are temporarily unavailable. Please email kloudviva@gmail.com directly." }, { status: 503 });
+      return Response.json({ error: "Enquiries are temporarily unavailable. Please try again later." }, { status: 503 });
     }
 
     const serviceLabel = serviceLabels[service as keyof typeof serviceLabels];
@@ -82,11 +82,11 @@ export async function POST(request: Request) {
     });
 
     if (!emailResponse.ok) {
-      return Response.json({ error: "We could not send your enquiry. Please email kloudviva@gmail.com directly." }, { status: 502 });
+      return Response.json({ error: "We could not send your enquiry. Please try again later." }, { status: 502 });
     }
 
     return Response.json({ ok: true });
   } catch {
-    return Response.json({ error: "We could not send your enquiry. Please try again or email kloudviva@gmail.com." }, { status: 500 });
+    return Response.json({ error: "We could not send your enquiry. Please try again later." }, { status: 500 });
   }
 }

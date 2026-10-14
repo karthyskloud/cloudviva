@@ -24,11 +24,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
               Share the goal and the current blocker. You’ll get a direct reply to discuss scope, timing, and next steps before any work begins.
             </p>
             <div className="mt-10 border-t pt-5" style={{ borderColor: "var(--border)" }}>
-              <p className="text-sm text-white">Prefer email?</p>
-              <a href="mailto:kloudviva@gmail.com" className="mt-2 inline-block text-sm hover:underline" style={{ color: "var(--accent)" }}>
-                kloudviva@gmail.com
-              </a>
-              <p className="mt-5 max-w-md text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+              <p className="max-w-md text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
                 Don’t include credentials, API keys, Terraform state, or confidential configuration in this form.
               </p>
             </div>

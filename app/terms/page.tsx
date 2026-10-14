@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 const sections = [
   {
     title: "1. How We Handle Submitted Data",
-    content: `CloudViva does not store or retain content submitted to the free analysis tools after the response is returned. Contact form enquiries are different: they are sent by email to kloudviva@gmail.com so we can respond, and may remain in that mailbox for follow-up. Resend processes the contact details to deliver the message.`,
+    content: `CloudViva does not store or retain content submitted to the free analysis tools after the response is returned. Contact form enquiries are different: they are sent to CloudViva by email so we can respond, and may remain in the business mailbox for follow-up. Resend processes the contact details to deliver the message.`,
   },
   {
     title: "2. Your Responsibility",
@@ -63,9 +63,9 @@ export default function TermsPage() {
         <div className="mt-8 glass rounded-2xl p-6">
           <h2 className="font-semibold text-white mb-3">Contact</h2>
           <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-            Questions about these terms? Reach out at{" "}
-            <a href="mailto:kloudviva@gmail.com" className="hover:text-white transition-colors" style={{ color: "var(--accent)" }}>
-              kloudviva@gmail.com
+            Questions about these terms? Send an enquiry through the{" "}
+            <a href="/contact" className="hover:text-white transition-colors" style={{ color: "var(--accent)" }}>
+              contact form
             </a>
           </p>
         </div>
