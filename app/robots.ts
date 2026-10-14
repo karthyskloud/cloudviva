@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://cloudviva.com.au/sitemap.xml",
-    host: "https://cloudviva.com.au",
+    sitemap: "https://www.cloudviva.com.au/sitemap.xml",
+    host: "https://www.cloudviva.com.au",
   };
 }

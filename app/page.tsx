@@ -43,21 +43,21 @@ export default function Home() {
 
         <motion.p {...fadeUp(2)}
           className="mt-6 text-lg max-w-xl leading-relaxed" style={{ color: "var(--muted)" }}>
-          Two AI-powered tools that make DevSecOps fast, clear, and actionable —
-          from Terraform plan reviews to full security scoring.
+          Practical AWS and Terraform support for small teams, backed by free tools
+          that make infrastructure changes easier to understand.
         </motion.p>
 
         <motion.div {...fadeUp(3)}
           className="mt-10 flex flex-col sm:flex-row items-center gap-3">
-          <Link href="/terraform"
+          <Link href="/services"
             className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-white transition-all hover:opacity-90"
             style={{ background: "var(--accent)", boxShadow: "0 0 30px rgba(14,165,233,0.4)" }}>
-            Explain my Terraform Plan <ArrowRight size={16} />
+            Explore services <ArrowRight size={16} />
           </Link>
-          <Link href="/score"
+          <Link href="/terraform"
             className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all hover:text-white glass"
             style={{ color: "var(--muted)" }}>
-            Score my Repo <BarChart3 size={16} />
+            Try the free tools <BarChart3 size={16} />
           </Link>
         </motion.div>
 
@@ -82,6 +82,23 @@ export default function Home() {
             </div>
           </div>
         </motion.div>
+      </section>
+
+      <section className="border-y" style={{ borderColor: "var(--border)", background: "rgba(13,22,40,0.48)" }}>
+        <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <p className="text-xs uppercase tracking-wide font-semibold" style={{ color: "var(--accent)" }}>Hands-on engineering</p>
+            <h2 className="mt-2 text-2xl font-semibold text-white">Need a person to fix or review your cloud setup?</h2>
+            <p className="mt-2 text-sm max-w-2xl" style={{ color: "var(--muted)" }}>
+              Get scoped AWS, Terraform, CI/CD, and cloud security help, with clear deliverables and a direct handoff.
+            </p>
+          </div>
+          <Link href="/services"
+            className="inline-flex shrink-0 items-center gap-2 px-5 py-3 rounded-lg font-medium text-white transition-opacity hover:opacity-90"
+            style={{ background: "var(--accent)" }}>
+            View services <ArrowRight size={16} />
+          </Link>
+        </div>
       </section>
 
       {/* Tools */}

@@ -8,7 +8,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cloudviva.com.au"),
+  metadataBase: new URL("https://www.cloudviva.com.au"),
   title: {
     default: "CloudViva | AI DevSecOps Intelligence for Terraform & Cloud Security",
     template: "%s | CloudViva",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: "CloudViva | AI DevSecOps Intelligence",
     description:
       "Understand your infrastructure before it breaks you with AI-powered Terraform and DevSecOps analysis.",
-    url: "https://cloudviva.com.au",
+    url: "https://www.cloudviva.com.au",
     siteName: "CloudViva",
     type: "website",
   },

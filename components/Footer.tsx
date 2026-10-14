@@ -23,6 +23,8 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-6 text-sm" style={{ color: "var(--muted)" }}>
+            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
             <Link href="/terraform" className="hover:text-white transition-colors">Terraform Explainer</Link>
             <Link href="/score" className="hover:text-white transition-colors">DevSecOps Score</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms & Privacy</Link>

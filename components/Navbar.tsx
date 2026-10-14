@@ -7,8 +7,10 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const links = [
+    { href: "/services", label: "Services" },
     { href: "/terraform", label: "IaC Plan Explainer" },
     { href: "/score", label: "DevSecOps Score" },
+    { href: "/contact", label: "Contact" },
   ];
 
   return (
@@ -46,11 +48,12 @@ export default function Navbar() {
         </div>
 
         <Link
-          href="/terraform"
-          className="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium text-white transition-all hover:opacity-90"
+          href="/services"
+          className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg text-sm font-medium text-white transition-all hover:opacity-90"
           style={{ background: "var(--accent)" }}
         >
-          Try Free
+          <span className="md:hidden">Services</span>
+          <span className="hidden md:inline">Get cloud help</span>
         </Link>
       </div>
     </nav>

@@ -3,8 +3,8 @@ import Footer from "@/components/Footer";
 
 const sections = [
   {
-    title: "1. No Data Storage",
-    content: `CloudViva does not store, log, retain, or share any content you submit for analysis. Your Terraform plans, Dockerfiles, Kubernetes manifests, CI/CD pipelines, and any other configuration files are sent directly to our AI model for real-time analysis and are immediately discarded after the response is returned. We have no database of user submissions.`,
+    title: "1. How We Handle Submitted Data",
+    content: `CloudViva does not store or retain content submitted to the free analysis tools after the response is returned. Contact form enquiries are different: they are sent by email to kloudviva@gmail.com so we can respond, and may remain in that mailbox for follow-up. Resend processes the contact details to deliver the message.`,
   },
   {
     title: "2. Your Responsibility",
@@ -64,8 +64,8 @@ export default function TermsPage() {
           <h2 className="font-semibold text-white mb-3">Contact</h2>
           <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
             Questions about these terms? Reach out at{" "}
-            <a href="mailto:hello@cloudviva.com.au" className="hover:text-white transition-colors" style={{ color: "var(--accent)" }}>
-              hello@cloudviva.com.au
+            <a href="mailto:kloudviva@gmail.com" className="hover:text-white transition-colors" style={{ color: "var(--accent)" }}>
+              kloudviva@gmail.com
             </a>
           </p>
         </div>
