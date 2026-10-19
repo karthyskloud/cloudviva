@@ -40,7 +40,7 @@ export default function Navbar() {
           <span className="sm:hidden">Learn</span>
         </Link>
       </div>
-      <div className="site-container site-nav__mobile-links pb-2 lg:hidden" aria-label="Main navigation">
+      <div className="site-container site-nav__mobile-links flex pb-2 lg:hidden" aria-label="Main navigation">
         {links.map((l) => (
           <Link key={l.href} href={l.href} className="site-nav__link shrink-0" aria-current={pathname === l.href ? "page" : undefined}>
             {l.label}
