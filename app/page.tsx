@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Shield, FileCode2, GitBranch, Zap, Lock, BarChart3, CheckCircle } from "lucide-react";
+import { ArrowRight, Shield, FileCode2, GitBranch, CheckCircle, BookOpen, CalendarDays } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { trainingTracks, upcomingCohorts } from "@/lib/training";
 
 function fadeUp(i: number) {
   return {
@@ -15,85 +16,93 @@ function fadeUp(i: number) {
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen" style={{ background: "var(--bg)" }}>
+    <div className="site-page flex min-h-screen flex-col">
       <Navbar />
 
-      {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center text-center pt-40 pb-24 px-6 grid-bg overflow-hidden">
-        {/* Glow orbs */}
-        <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%)" }} />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%)" }} />
-
+      <section className="learning-hero">
+        <div className="site-container py-20 sm:py-28">
         <motion.div {...fadeUp(0)}
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6"
-          style={{ background: "rgba(14,165,233,0.12)", border: "1px solid rgba(14,165,233,0.3)", color: "var(--accent)" }}>
-          <Zap size={11} /> AI-Powered DevSecOps Intelligence
+          className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-medium text-white mb-6">
+          <BookOpen size={13} /> CloudViva learning paths and live cohorts
         </motion.div>
 
         <motion.h1 {...fadeUp(1)}
-          className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-tight max-w-4xl">
-          Build and run cloud infrastructure with confidence.
+          className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-6xl">
+          Cloud and DevOps, learned by building real systems.
         </motion.h1>
 
         <motion.p {...fadeUp(2)}
-          className="mt-6 text-lg max-w-xl leading-relaxed" style={{ color: "var(--muted)" }}>
-          Practical cloud infrastructure and DevOps support for small teams, backed by free tools
-          that make infrastructure changes easier to understand.
+          className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+          Start with the fundamentals, create your first delivery pipeline, and learn to change infrastructure with care. No existing DevOps setup required.
         </motion.p>
 
         <motion.div {...fadeUp(3)}
-          className="mt-10 flex flex-col sm:flex-row items-center gap-3">
-          <Link href="/services"
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-white transition-all hover:opacity-90"
-            style={{ background: "var(--accent)", boxShadow: "0 0 30px rgba(14,165,233,0.4)" }}>
-            Explore services <ArrowRight size={16} />
+          className="mt-9 flex flex-col items-start gap-3 sm:flex-row">
+          <Link href="/training" className="button-primary">
+            Explore training <ArrowRight size={16} />
           </Link>
-          <Link href="/terraform"
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all hover:text-white glass"
-            style={{ color: "var(--muted)" }}>
-            Try the free tools <BarChart3 size={16} />
+          <Link href="#cohorts" className="inline-flex min-h-11 items-center gap-2 rounded-md border border-white/60 px-5 font-medium text-white transition-colors hover:bg-white/10">
+            Upcoming batches <CalendarDays size={16} />
           </Link>
         </motion.div>
 
-        {/* Terminal preview */}
-        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }}
-          className="mt-16 w-full max-w-3xl glass rounded-2xl overflow-hidden animate-float"
-          style={{ border: "1px solid rgba(14,165,233,0.3)", boxShadow: "0 0 60px rgba(14,165,233,0.1)" }}>
-          <div className="flex items-center gap-2 px-4 py-3 border-b" style={{ borderColor: "var(--border)", background: "rgba(0,0,0,0.3)" }}>
-            <div className="w-3 h-3 rounded-full" style={{ background: "#ef4444" }} />
-            <div className="w-3 h-3 rounded-full" style={{ background: "#eab308" }} />
-            <div className="w-3 h-3 rounded-full" style={{ background: "#22c55e" }} />
-            <span className="ml-3 text-xs" style={{ color: "var(--muted)", fontFamily: "var(--font-geist-mono)" }}>terraform plan | cloudviva explain</span>
-          </div>
-          <div className="p-5 text-left" style={{ fontFamily: "var(--font-geist-mono)", fontSize: "13px" }}>
-            <p style={{ color: "var(--muted)" }}>$ terraform plan -out=tfplan &amp;&amp; cloudviva explain tfplan</p>
-            <div className="mt-3 space-y-2">
-              <p style={{ color: "#22c55e" }}>✓ Analyzing 12 resource changes...</p>
-              <p className="text-white">⚠ <span style={{ color: "#ef4444", fontWeight: 600 }}>CRITICAL:</span> module.database will be <span style={{ color: "#ef4444" }}>REPLACED</span> — data loss is possible</p>
-              <p className="text-white">ℹ <span style={{ color: "#eab308" }}>HIGH:</span> Administrative access is exposed to the public internet</p>
-              <p className="text-white">✓ <span style={{ color: "#22c55e" }}>SAFE:</span> 10 resources will be updated with no data loss</p>
-              <p className="mt-2" style={{ color: "var(--muted)" }}>→ <span className="text-white">Risk Score: 8.2/10</span> — Review required before applying</p>
-            </div>
-          </div>
-        </motion.div>
+        </div>
       </section>
 
-      <section className="border-y" style={{ borderColor: "var(--border)", background: "rgba(13,22,40,0.48)" }}>
+      <section className="site-container py-16 sm:py-20">
+        <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
+            <p className="section-eyebrow">Choose your starting point</p>
+            <h2 className="mt-2 text-3xl font-bold text-[var(--text)]">Learn the parts that make software shippable.</h2>
+          </div>
+          <Link href="/training" className="inline-flex items-center gap-2 font-semibold text-[var(--accent-2)]">View learning paths <ArrowRight size={16} /></Link>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {trainingTracks.map((track) => (
+            <article key={track.id} className="learning-card">
+              <span className="font-mono text-sm font-semibold text-[var(--accent)]">{track.number}</span>
+              <p className="mt-4 text-xs font-semibold uppercase text-[var(--accent-2)]">{track.level}</p>
+              <h3 className="mt-2 text-xl font-semibold text-[var(--text)]">{track.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{track.summary}</p>
+              <Link href={`/training#${track.id}`} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-2)]">See the outline <ArrowRight size={14} /></Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="cohorts" className="border-y bg-[#eaf2ef] py-16 sm:py-20 section-rule">
+        <div className="site-container">
+          <div className="max-w-2xl">
+            <p className="section-eyebrow">Upcoming learning batches</p>
+            <h2 className="mt-2 text-3xl font-bold text-[var(--text)]">Pick a topic. Register your interest.</h2>
+            <p className="mt-3 text-base leading-relaxed text-[var(--muted)]">Cohort dates and format are being finalized. Register interest and we’ll send the schedule and fees before enrollment opens.</p>
+          </div>
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            {upcomingCohorts.map((cohort) => (
+              <article key={cohort.id} className="cohort-card">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase text-[var(--accent-2)]"><CalendarDays size={14} /> Interest open</span>
+                  <span className="text-xs text-[var(--muted)]">Dates TBA</span>
+                </div>
+                <h3 className="mt-5 text-lg font-semibold text-[var(--text)]">{cohort.title}</h3>
+                <p className="mt-2 min-h-12 text-sm leading-relaxed text-[var(--muted)]">{cohort.focus}</p>
+                <Link href={`/contact?service=training-interest&course=${cohort.id}`} className="button-primary mt-5 w-full text-sm">Register interest <ArrowRight size={15} /></Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-[var(--border)] bg-[#eaf2ef]">
         <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
-            <p className="text-xs uppercase tracking-wide font-semibold" style={{ color: "var(--accent)" }}>Hands-on engineering</p>
-            <h2 className="mt-2 text-2xl font-semibold text-white">Need a person to fix or review your cloud setup?</h2>
+            <p className="section-eyebrow">Hands-on engineering</p>
+            <h2 className="mt-2 text-2xl font-semibold text-[var(--text)]">Need a person to fix or review your cloud setup?</h2>
             <p className="mt-2 text-sm max-w-2xl" style={{ color: "var(--muted)" }}>
               Get scoped cloud infrastructure, CI/CD, and security help, with clear deliverables and a direct handoff.
             </p>
           </div>
-          <Link href="/services"
-            className="inline-flex shrink-0 items-center gap-2 px-5 py-3 rounded-lg font-medium text-white transition-opacity hover:opacity-90"
-            style={{ background: "var(--accent)" }}>
-            View services <ArrowRight size={16} />
-          </Link>
+          <Link href="/services" className="button-primary shrink-0">View services <ArrowRight size={16} /></Link>
         </div>
       </section>
 
@@ -101,9 +110,9 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 py-24">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
           className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">Two tools. One mission.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--text)]">Practice what you learn with free tools.</h2>
           <p className="mt-3 text-base" style={{ color: "var(--muted)" }}>
-            Stop guessing. Start knowing exactly what your infrastructure does and how secure it is.
+            Use the plan explainer and security score to connect lessons to real infrastructure changes.
           </p>
         </motion.div>
 
@@ -166,13 +175,13 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 py-16">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
           className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-white">How it works</h2>
+          <h2 className="text-3xl font-bold text-white">A clear route from learning to doing</h2>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            { step: "01", icon: <FileCode2 size={20} />, title: "Paste or connect", desc: "Paste your terraform plan or connect your GitHub repo. No account required to try." },
-            { step: "02", icon: <Zap size={20} />, title: "AI analyzes instantly", desc: "Our AI reads every line — flags risks, explains changes, scores security posture in seconds." },
-            { step: "03", icon: <Lock size={20} />, title: "Act with confidence", desc: "Get a clear report with specific fixes. Apply your plan knowing exactly what will happen." },
+            { step: "01", icon: <BookOpen size={20} />, title: "Choose a learning path", desc: "Start with cloud foundations, a first delivery pipeline, or infrastructure as code." },
+            { step: "02", icon: <FileCode2 size={20} />, title: "Practice in small steps", desc: "Use concrete examples to understand the workflow before applying it to a real system." },
+            { step: "03", icon: <Shield size={20} />, title: "Carry it into your work", desc: "Use the checklists and free tools to review changes and make the next release safer." },
           ].map((s, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: i * 0.12 }}
@@ -193,14 +202,14 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 py-16">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
           className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-white">Who uses CloudViva</h2>
+          <h2 className="text-3xl font-bold text-white">Different starting points. Practical next steps.</h2>
         </motion.div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { icon: <GitBranch size={18} />, title: "DevOps Engineers", desc: "Review terraform plans with confidence before applying to production." },
-            { icon: <Shield size={18} />, title: "Security Teams", desc: "Audit repos for DevSecOps compliance without manual scanning." },
-            { icon: <BarChart3 size={18} />, title: "Startups", desc: "Prep for SOC2 / ISO27001 with an instant security posture score." },
-            { icon: <Zap size={18} />, title: "CI/CD Pipelines", desc: "Auto-score every pull request. Catch issues before they reach main." },
+            { icon: <BookOpen size={18} />, title: "New to cloud", desc: "Build a clear foundation without assuming prior platform experience." },
+            { icon: <GitBranch size={18} />, title: "Developers", desc: "Move from manual releases toward tested, repeatable delivery." },
+            { icon: <Shield size={18} />, title: "Small teams", desc: "Learn access, backups, monitoring, and cost-aware operations as you grow." },
+            { icon: <FileCode2 size={18} />, title: "Platform builders", desc: "Make infrastructure changes easier to review and repeat across environments." },
           ].map((c, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: i * 0.1 }}
@@ -220,22 +229,14 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 py-24">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="relative rounded-3xl overflow-hidden p-12 text-center glow-border"
-          style={{ background: "linear-gradient(135deg, rgba(14,165,233,0.08) 0%, rgba(139,92,246,0.05) 100%)" }}>
-          <h2 className="text-3xl md:text-4xl font-bold text-white">Start for free. No signup.</h2>
+          style={{ background: "#eaf2ef" }}>
+          <h2 className="text-3xl md:text-4xl font-bold text-[var(--text)]">Start learning by trying a tool.</h2>
           <p className="mt-4 text-base" style={{ color: "var(--muted)" }}>
-            Paste a terraform plan or drop a repo URL. See results in seconds.
+            Use the free plan explainer or security score alongside the training paths.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link href="/terraform"
-              className="flex items-center gap-2 px-7 py-3 rounded-xl font-medium text-white transition-all hover:opacity-90"
-              style={{ background: "var(--accent)", boxShadow: "0 0 30px rgba(14,165,233,0.4)" }}>
-              Explain a Terraform Plan <ArrowRight size={16} />
-            </Link>
-            <Link href="/score"
-              className="flex items-center gap-2 px-7 py-3 rounded-xl font-medium transition-all hover:text-white glass"
-              style={{ color: "var(--muted)" }}>
-              Get my Security Score
-            </Link>
+            <Link href="/terraform" className="button-primary">Explain a plan <ArrowRight size={16} /></Link>
+            <Link href="/score" className="inline-flex min-h-11 items-center gap-2 rounded-md border border-[var(--border)] bg-white px-5 font-semibold text-[var(--accent-2)]">Try the security score</Link>
           </div>
         </motion.div>
       </section>

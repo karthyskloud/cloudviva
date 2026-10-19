@@ -7,54 +7,45 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const links = [
+    { href: "/training", label: "Training" },
     { href: "/services", label: "Services" },
-    { href: "/terraform", label: "IaC Plan Explainer" },
-    { href: "/score", label: "DevSecOps Score" },
+    { href: "/terraform", label: "Plan explainer" },
+    { href: "/score", label: "Security score" },
     { href: "/contact", label: "Contact" },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b" style={{ borderColor: "var(--border)" }}>
-      <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/cloudviva.png"
-            alt="CloudViva"
-            width={44}
-            height={44}
-            className="rounded-full object-cover"
-            style={{
-              border: "2px solid rgba(14, 165, 233, 0.5)",
-              boxShadow: "0 0 12px rgba(14, 165, 233, 0.4)",
-            }}
-          />
-          <span className="font-semibold text-white text-sm">CloudViva</span>
+    <nav className="site-nav">
+      <div className="site-container flex min-h-[68px] items-center justify-between gap-4">
+        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="CloudViva home">
+          <Image src="/cloudviva.png" alt="" width={40} height={40} className="rounded-full object-cover" />
+          <span className="font-semibold text-[var(--text)]">CloudViva</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="px-3 py-1.5 rounded-md text-sm transition-all"
-              style={{
-                color: pathname === l.href ? "white" : "var(--muted)",
-                background: pathname === l.href ? "rgba(14,165,233,0.15)" : "transparent",
-              }}
+              className="site-nav__link"
+              aria-current={pathname === l.href ? "page" : undefined}
             >
               {l.label}
             </Link>
           ))}
         </div>
 
-        <Link
-          href="/services"
-          className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg text-sm font-medium text-white transition-all hover:opacity-90"
-          style={{ background: "var(--accent)" }}
-        >
-          <span className="md:hidden">Services</span>
-          <span className="hidden md:inline">Get cloud help</span>
+        <Link href="/training#cohorts" className="button-primary shrink-0 text-sm">
+          <span className="hidden sm:inline">Explore batches</span>
+          <span className="sm:hidden">Learn</span>
         </Link>
+      </div>
+      <div className="site-container site-nav__mobile-links pb-2 lg:hidden" aria-label="Main navigation">
+        {links.map((l) => (
+          <Link key={l.href} href={l.href} className="site-nav__link shrink-0" aria-current={pathname === l.href ? "page" : undefined}>
+            {l.label}
+          </Link>
+        ))}
       </div>
     </nav>
   );

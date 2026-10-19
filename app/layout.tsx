@@ -10,15 +10,16 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.cloudviva.com.au"),
   title: {
-    default: "CloudViva | AI DevSecOps Intelligence for Terraform & Cloud Security",
+    default: "CloudViva | Learn Cloud & DevOps by Building",
     template: "%s | CloudViva",
   },
   description:
-    "CloudViva helps DevOps and security teams explain infrastructure changes in plain English and score cloud security posture across Terraform, Docker, Kubernetes, and CI/CD.",
+    "Build practical cloud and DevOps skills with beginner-friendly learning paths, upcoming cohorts, infrastructure tools, and hands-on engineering support.",
   applicationName: "CloudViva",
   keywords: [
     "DevSecOps",
     "Terraform plan explainer",
+    "Cloud and DevOps training",
     "Cloud security score",
     "Kubernetes security",
     "Docker security review",
@@ -30,18 +31,18 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "CloudViva | AI DevSecOps Intelligence",
+    title: "CloudViva | Cloud & DevOps Learning",
     description:
-      "Understand your infrastructure before it breaks you with AI-powered Terraform and DevSecOps analysis.",
+      "Learn cloud foundations, infrastructure as code, CI/CD, and practical DevOps workflows with CloudViva.",
     url: "https://www.cloudviva.com.au",
     siteName: "CloudViva",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "CloudViva | AI DevSecOps Intelligence",
+    title: "CloudViva | Cloud & DevOps Learning",
     description:
-      "Explain Terraform plans and score your cloud security posture with AI-powered analysis.",
+      "Practical cloud and DevOps learning for teams building their first reliable delivery workflows.",
   },
   verification: {
     google: GOOGLE_SITE_VERIFICATION,

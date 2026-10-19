@@ -275,7 +275,7 @@ export default function ScorePage() {
     : "var(--muted)";
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="tool-theme flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 pt-28 pb-16">
         {/* Header */}

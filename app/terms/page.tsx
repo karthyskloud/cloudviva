@@ -34,20 +34,20 @@ const sections = [
 
 export default function TermsPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="site-page flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1 max-w-3xl mx-auto w-full px-6 pt-28 pb-16">
         <div className="mb-10">
           <h1 className="text-3xl font-bold text-white mb-3">Terms of Use & Privacy Policy</h1>
           <p className="text-sm" style={{ color: "var(--muted)" }}>
-            Last updated: April 2026 &nbsp;·&nbsp; Plain English, no legal jargon.
+            Last updated: October 2026 &nbsp;·&nbsp; Plain English, no legal jargon.
           </p>
         </div>
 
         <div className="glass rounded-2xl p-6 mb-6" style={{ borderColor: "var(--border)" }}>
           <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-            CloudViva is a free AI-powered tool for DevOps and DevSecOps engineers. We believe in transparency.
-            This page explains exactly how your data is handled and what you agree to by using this service.
+            CloudViva provides cloud and DevOps learning, practical analysis tools, and scoped engineering support.
+            This page explains how data is handled and what you agree to when using these services.
           </p>
         </div>
 

@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 const services = [
+  { value: "training-interest", label: "Cloud or DevOps training batch" },
   { value: "cloud-infrastructure", label: "Cloud infrastructure or Terraform support" },
   { value: "cloud-review", label: "Cloud cost and security review" },
   { value: "devops-foundation", label: "Set up DevOps practices or CI/CD from scratch" },
@@ -14,7 +15,7 @@ const services = [
 const fieldClass = "mt-2 w-full rounded-md border px-3 py-3 text-sm text-white outline-none focus:border-sky-400";
 const fieldStyle = { borderColor: "var(--border)", background: "var(--surface)" };
 
-export default function ContactForm({ initialService }: { initialService?: string }) {
+export default function ContactForm({ initialService, initialCourse }: { initialService?: string; initialCourse?: string }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "sent" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -49,17 +50,17 @@ export default function ContactForm({ initialService }: { initialService?: strin
   return (
     <form onSubmit={handleSubmit} className="space-y-5" aria-label="Project enquiry form">
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="block text-sm text-white">
+        <label className="block text-sm text-[var(--text)]">
           Your name
           <input className={fieldClass} style={fieldStyle} name="name" autoComplete="name" maxLength={100} required />
         </label>
-        <label className="block text-sm text-white">
+        <label className="block text-sm text-[var(--text)]">
           Work email
           <input className={fieldClass} style={fieldStyle} name="email" type="email" autoComplete="email" maxLength={254} required />
         </label>
       </div>
 
-      <label className="block text-sm text-white">
+      <label className="block text-sm text-[var(--text)]">
         What do you need help with?
         <select className={fieldClass} style={fieldStyle} name="service" defaultValue={services.some((service) => service.value === initialService) ? initialService : ""} required>
           <option value="" disabled>Select a service</option>
@@ -67,9 +68,10 @@ export default function ContactForm({ initialService }: { initialService?: strin
         </select>
       </label>
 
-      <label className="block text-sm text-white">
+      <label className="block text-sm text-[var(--text)]">
         Project summary
         <textarea className={`${fieldClass} min-h-36 resize-y`} style={fieldStyle} name="details" minLength={20} maxLength={3000} required
+          defaultValue={initialCourse ? `I'm interested in the ${initialCourse} training batch.` : ""}
           placeholder="What are you working on, what is blocked, and what outcome do you need?" />
       </label>
 
@@ -86,8 +88,7 @@ export default function ContactForm({ initialService }: { initialService?: strin
       </label>
 
       <button type="submit" disabled={status === "submitting"}
-        className="inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-wait disabled:opacity-60"
-        style={{ background: "var(--accent)" }}>
+        className="button-primary text-sm disabled:cursor-wait disabled:opacity-60">
         {status === "submitting" ? "Sending..." : "Send enquiry"}
         {status !== "submitting" && <ArrowRight size={16} />}
       </button>

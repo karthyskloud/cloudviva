@@ -67,21 +67,19 @@ const offers = [
 
 export default function ServicesPage() {
   return (
-    <div className="flex min-h-screen flex-col" style={{ background: "var(--bg)" }}>
+    <div className="site-page flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">
         <section className="grid-bg border-b" style={{ borderColor: "var(--border)" }}>
           <div className="max-w-6xl mx-auto px-6 pt-32 pb-16">
             <p className="text-sm font-medium" style={{ color: "var(--accent)" }}>CloudViva services</p>
-            <h1 className="mt-4 max-w-4xl text-4xl md:text-6xl font-bold leading-tight text-white">
+            <h1 className="mt-4 max-w-4xl text-4xl md:text-6xl font-bold leading-tight text-[var(--text)]">
               Cloud infrastructure and DevOps support, scoped around the work you need done.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed" style={{ color: "var(--muted)" }}>
               Practical support for startups and small teams: establish your first delivery pipeline, fix an infrastructure blocker, review cloud risks and costs, or build reusable automation.
             </p>
-            <Link href="/contact"
-              className="mt-8 inline-flex items-center gap-2 rounded-lg px-5 py-3 font-medium text-white transition-opacity hover:opacity-90"
-              style={{ background: "var(--accent)" }}>
+            <Link href="/contact" className="button-primary mt-8">
               Discuss a project <ArrowRight size={16} />
             </Link>
           </div>

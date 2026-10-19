@@ -3,36 +3,30 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="border-t mt-24" style={{ borderColor: "var(--border)" }}>
-      <div className="max-w-6xl mx-auto px-6 py-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/cloudviva.png"
-              alt="CloudViva"
-              width={36}
-              height={36}
-              className="rounded-full object-cover"
-              style={{ border: "2px solid rgba(14, 165, 233, 0.5)", boxShadow: "0 0 10px rgba(14, 165, 233, 0.3)" }}
-            />
-            <span className="font-semibold text-white text-sm">CloudViva</span>
+    <footer className="site-footer mt-16">
+      <div className="site-container py-10">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+          <Link href="/" className="flex items-center gap-2 text-[var(--text)]">
+            <Image src="/cloudviva.png" alt="" width={36} height={36} className="rounded-full object-cover" />
+            <span className="font-semibold text-sm">CloudViva</span>
           </Link>
 
-          <p className="text-xs text-center" style={{ color: "var(--muted)" }}>
-            AI-generated results are for informational purposes only. Always verify before acting in production.
+          <p className="max-w-sm text-sm leading-relaxed">
+            Learn cloud and DevOps by building. Use the free tools to make infrastructure changes easier to understand.
           </p>
 
-          <div className="flex items-center gap-6 text-sm" style={{ color: "var(--muted)" }}>
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
-            <Link href="/terraform" className="hover:text-white transition-colors">Terraform Explainer</Link>
-            <Link href="/score" className="hover:text-white transition-colors">DevSecOps Score</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms & Privacy</Link>
+          <div className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
+            <Link href="/training" className="hover:text-[var(--accent)]">Training</Link>
+            <Link href="/services" className="hover:text-[var(--accent)] transition-colors">Services</Link>
+            <Link href="/contact" className="hover:text-[var(--accent)] transition-colors">Contact</Link>
+            <Link href="/terraform" className="hover:text-[var(--accent)]">Plan explainer</Link>
+            <Link href="/score" className="hover:text-[var(--accent)]">Security score</Link>
+            <Link href="/terms" className="hover:text-[var(--accent)]">Terms & Privacy</Link>
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t text-center text-xs" style={{ borderColor: "var(--border)", color: "var(--muted)" }}>
-          © {new Date().getFullYear()} CloudViva. All rights reserved. &nbsp;·&nbsp; cloudviva.com.au
+        <div className="mt-8 border-t pt-5 text-xs" style={{ borderColor: "var(--border)" }}>
+          © {new Date().getFullYear()} CloudViva · cloudviva.com.au
         </div>
       </div>
     </footer>

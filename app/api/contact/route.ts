@@ -3,6 +3,7 @@ import { checkRateLimit } from "@/lib/ratelimit";
 
 const recipient = "kloudviva@gmail.com";
 const serviceLabels = {
+  "training-interest": "Cloud and DevOps training cohort enquiry",
   "cloud-infrastructure": "Cloud infrastructure or Terraform support",
   "cloud-review": "Cloud cost and security review",
   "devops-foundation": "DevOps and CI/CD foundations",
