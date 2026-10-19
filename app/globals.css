@@ -147,13 +147,16 @@ body {
 }
 
 .site-nav__mobile-links {
-  display: flex;
   gap: 4px;
   overflow-x: auto;
   scrollbar-width: none;
 }
 
 .site-nav__mobile-links::-webkit-scrollbar { display: none; }
+
+@media (min-width: 1024px) {
+  .site-nav__mobile-links { display: none; }
+}
 
 .button-primary {
   display: inline-flex;
