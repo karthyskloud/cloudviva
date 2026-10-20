@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ArrowRight, BookOpen, CalendarDays, CheckCircle2, Cloud, GitBranch, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { trainingReferences, trainingTracks, upcomingCohorts } from "@/lib/training";
+import { trainingTracks, upcomingCohorts } from "@/lib/training";
 
 export const metadata: Metadata = {
   title: "Cloud & DevOps Training",
@@ -167,25 +167,6 @@ export default function TrainingPage() {
             <div className="flex gap-3"><Cloud size={20} className="mt-1 shrink-0 text-[var(--accent-2)]" /><p className="text-sm leading-relaxed text-[var(--muted)]"><strong className="text-[var(--text)]">Provider-aware, not provider-locked.</strong> Learn concepts first, then see how they map to a specific platform.</p></div>
             <div className="flex gap-3"><GitBranch size={20} className="mt-1 shrink-0 text-[var(--accent-2)]" /><p className="text-sm leading-relaxed text-[var(--muted)]"><strong className="text-[var(--text)]">Start from zero.</strong> DevOps foundations do not assume a working CI/CD pipeline already exists.</p></div>
             <div className="flex gap-3"><ShieldCheck size={20} className="mt-1 shrink-0 text-[var(--accent-2)]" /><p className="text-sm leading-relaxed text-[var(--muted)]"><strong className="text-[var(--text)]">Practice safely.</strong> Examples use non-production workflows; credentials and production access are handled separately.</p></div>
-          </div>
-        </section>
-
-        <section className="site-container py-12">
-          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-            <div className="max-w-sm">
-              <p className="section-eyebrow">Go deeper</p>
-              <h2 className="mt-2 text-2xl font-bold text-[var(--text)]">Official guides behind the learning paths.</h2>
-            </div>
-            <ul className="grid flex-1 gap-x-8 gap-y-4 sm:grid-cols-2 md:max-w-2xl">
-              {trainingReferences.map((reference) => (
-                <li key={reference.href} className="border-t border-[var(--border)] pt-3">
-                  <a href={reference.href} target="_blank" rel="noreferrer" className="font-semibold text-[var(--accent-2)] hover:text-[var(--accent)]">
-                    {reference.label} <span aria-hidden="true">↗</span>
-                  </a>
-                  <p className="mt-1 text-sm leading-relaxed text-[var(--muted)]">{reference.note}</p>
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
 
