@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 
 const sections = [
   {
@@ -36,12 +37,18 @@ export default function TermsPage() {
   return (
     <div className="site-page flex min-h-screen flex-col">
       <Navbar />
-      <main className="flex-1 max-w-3xl mx-auto w-full px-6 pt-28 pb-16">
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold text-white mb-3">Terms of Use & Privacy Policy</h1>
-          <p className="text-sm" style={{ color: "var(--muted)" }}>
-            Last updated: October 2026 &nbsp;·&nbsp; Plain English, no legal jargon.
-          </p>
+      <main className="site-container flex-1 max-w-5xl pt-28 pb-16">
+        <div className="mb-10 grid items-center gap-8 md:grid-cols-[1fr_260px]">
+          <div>
+            <p className="section-eyebrow">Your data and terms</p>
+            <h1 className="mt-3 text-3xl font-bold text-white mb-3">Terms of Use & Privacy Policy</h1>
+            <p className="text-sm" style={{ color: "var(--muted)" }}>
+              Last updated: October 2026 &nbsp;·&nbsp; Plain English, no legal jargon.
+            </p>
+          </div>
+          <div className="page-illustration">
+            <Image src="/illustrations/privacy-document.png" alt="Illustration of a protected document" fill priority sizes="260px" />
+          </div>
         </div>
 
         <div className="glass rounded-2xl p-6 mb-6" style={{ borderColor: "var(--border)" }}>

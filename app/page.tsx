@@ -1,18 +1,11 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Shield, FileCode2, GitBranch, CheckCircle, BookOpen, CalendarDays } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { trainingTracks, upcomingCohorts } from "@/lib/training";
-
-function fadeUp(i: number) {
-  return {
-    initial: { opacity: 0, y: 24 },
-    animate: { opacity: 1, y: 0 },
-    transition: { delay: i * 0.1, duration: 0.5 },
-  };
-}
 
 export default function Home() {
   return (
@@ -20,32 +13,27 @@ export default function Home() {
       <Navbar />
 
       <section className="learning-hero">
-        <div className="site-container py-20 sm:py-28">
-        <motion.div {...fadeUp(0)}
-          className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-medium text-white mb-6">
-          <BookOpen size={13} /> CloudViva learning paths and live cohorts
-        </motion.div>
-
-        <motion.h1 {...fadeUp(1)}
-          className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-6xl">
-          Cloud and DevOps, learned by building real systems.
-        </motion.h1>
-
-        <motion.p {...fadeUp(2)}
-          className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
-          Start with the fundamentals, create your first delivery pipeline, and learn to change infrastructure with care. No existing DevOps setup required.
-        </motion.p>
-
-        <motion.div {...fadeUp(3)}
-          className="mt-9 flex flex-col items-start gap-3 sm:flex-row">
-          <Link href="/training" className="button-primary">
-            Explore training <ArrowRight size={16} />
-          </Link>
-          <Link href="#cohorts" className="inline-flex min-h-11 items-center gap-2 rounded-md border border-white/60 px-5 font-medium text-white transition-colors hover:bg-white/10">
-            Upcoming batches <CalendarDays size={16} />
-          </Link>
-        </motion.div>
-
+        <div className="site-container grid items-center gap-8 py-12 sm:grid-cols-[1.05fr_0.95fr] sm:py-16 sm:gap-6 lg:gap-10">
+          <div>
+            <p className="section-eyebrow">CloudViva · Learn by building</p>
+            <h1 className="mt-4 max-w-2xl text-4xl font-bold leading-[1.05] text-[var(--text)] sm:text-5xl xl:text-7xl">
+              Learn cloud.<br /><span className="text-[var(--accent)]">Ship with confidence.</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-[var(--muted)]">
+              Practical cloud and DevOps training for developers and small teams—from cloud basics to your first reliable release pipeline.
+            </p>
+            <div className="mt-8 flex flex-col items-start gap-3 lg:flex-row">
+              <Link href="#cohorts" className="button-primary whitespace-nowrap">Explore upcoming cohorts <ArrowRight size={16} /></Link>
+              <Link href="/training#learning-paths" className="inline-flex min-h-11 items-center gap-2 whitespace-nowrap px-2 font-semibold text-[var(--accent-2)]">See what you’ll learn <BookOpen size={16} /></Link>
+            </div>
+            <p className="mt-6 text-sm text-[var(--muted)]">
+              Beginner-friendly <span className="mx-2 text-[var(--accent)]">/</span> Hands-on labs <span className="mx-2 text-[var(--accent)]">/</span> No existing DevOps setup needed
+            </p>
+          </div>
+          <div className="learning-hero__visual">
+            <Image src="/illustrations/cloud-learning.png" alt="Illustration of cloud architecture connected to learning modules and code" fill priority sizes="(max-width: 1024px) 100vw, 45vw" />
+            <div className="learning-hero__caption"><GitBranch size={15} /> Learn it. Build it. Review it.</div>
+          </div>
         </div>
       </section>
 
@@ -57,14 +45,14 @@ export default function Home() {
           </div>
           <Link href="/training" className="inline-flex items-center gap-2 font-semibold text-[var(--accent-2)]">View learning paths <ArrowRight size={16} /></Link>
         </div>
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-x-8 gap-y-7 md:grid-cols-3">
           {trainingTracks.map((track) => (
-            <article key={track.id} className="learning-card">
-              <span className="font-mono text-sm font-semibold text-[var(--accent)]">{track.number}</span>
-              <p className="mt-4 text-xs font-semibold uppercase text-[var(--accent-2)]">{track.level}</p>
+            <article key={track.id} className="learning-path-preview">
+              <span className="font-mono text-sm font-semibold text-[var(--accent)]">{track.number} /</span>
+              <p className="mt-4 text-xs font-semibold uppercase text-[var(--accent-2)]">{track.audience}</p>
               <h3 className="mt-2 text-xl font-semibold text-[var(--text)]">{track.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{track.summary}</p>
-              <Link href={`/training#${track.id}`} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-2)]">See the outline <ArrowRight size={14} /></Link>
+              <Link href={`/training#${track.id}`} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-2)]">Explore this course <ArrowRight size={14} /></Link>
             </article>
           ))}
         </div>

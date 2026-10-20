@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FileCode2, AlertTriangle, CheckCircle, XCircle, Info, Loader2, ArrowRight, Trash2, ShieldCheck, Terminal } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -240,10 +241,10 @@ interface AnalysisResult {
 }
 
 const riskColors: Record<RiskLevel, string> = {
-  critical: "#ef4444",
-  high: "#f97316",
-  medium: "#eab308",
-  low: "#22c55e",
+  critical: "#b83b35",
+  high: "#b95316",
+  medium: "#9a6810",
+  low: "#18734c",
 };
 
 const actionIcons: Record<string, React.ReactNode> = {
@@ -252,8 +253,8 @@ const actionIcons: Record<string, React.ReactNode> = {
   remove:  <XCircle size={14} style={{ color: "#ef4444" }} />,
   create:  <CheckCircle size={14} style={{ color: "#22c55e" }} />,
   add:     <CheckCircle size={14} style={{ color: "#22c55e" }} />,
-  update:  <Info size={14} style={{ color: "#0ea5e9" }} />,
-  modify:  <Info size={14} style={{ color: "#0ea5e9" }} />,
+  update:  <Info size={14} style={{ color: "#0e6870" }} />,
+  modify:  <Info size={14} style={{ color: "#0e6870" }} />,
   replace: <AlertTriangle size={14} style={{ color: "#f97316" }} />,
 };
 
@@ -308,22 +309,23 @@ export default function TerraformPage() {
   }
 
   return (
-    <div className="tool-theme flex min-h-screen flex-col">
+    <div className="site-page flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 pt-28 pb-16">
 
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 grid grid-cols-[minmax(0,1fr)_88px] items-center gap-3 sm:grid-cols-[minmax(0,1fr)_220px] sm:gap-6">
+          <div className="flex min-w-0 items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-              style={{ background: "rgba(14,165,233,0.15)", border: "1px solid rgba(14,165,233,0.3)", color: "var(--accent)" }}>
+              style={{ background: "#eaf2ef", border: "1px solid var(--border)", color: "var(--accent-2)" }}>
               <FileCode2 size={18} />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">IaC Plan Explainer</h1>
+              <h1 className="text-2xl font-bold text-white">Infrastructure plan explainer</h1>
               <p className="text-sm" style={{ color: "var(--muted)" }}>AI explains your infrastructure changes in plain English — for every IaC tool</p>
             </div>
           </div>
+          <Image src="/illustrations/terraform-plans.png" alt="Illustration of an infrastructure plan connected to cloud resources" width={220} height={156} priority sizes="(max-width: 640px) 88px, 220px" className="h-auto w-[88px] sm:w-[220px]" />
         </motion.div>
 
         {/* Tool selector */}
@@ -333,9 +335,9 @@ export default function TerraformPage() {
             <button key={t.id} onClick={() => { setSelectedTool(t); setPlan(""); setResult(null); setError(""); setShowCommand(false); }}
               className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
               style={{
-                background: selectedTool.id === t.id ? "rgba(14,165,233,0.2)" : "rgba(255,255,255,0.04)",
-                border: `1px solid ${selectedTool.id === t.id ? "rgba(14,165,233,0.5)" : "var(--border)"}`,
-                color: selectedTool.id === t.id ? "white" : "var(--muted)",
+                background: selectedTool.id === t.id ? "rgba(185,83,22,0.1)" : "#ffffff",
+                border: `1px solid ${selectedTool.id === t.id ? "rgba(185,83,22,0.45)" : "var(--border)"}`,
+                color: selectedTool.id === t.id ? "var(--text)" : "var(--muted)",
               }}>
               {t.label}
             </button>
@@ -345,8 +347,8 @@ export default function TerraformPage() {
         {/* How to get the output */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="mb-4">
           <button onClick={() => setShowCommand(!showCommand)}
-            className="flex items-center gap-2 text-xs px-3 py-2 rounded-lg transition-all hover:text-white w-full text-left"
-            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", color: "var(--muted)" }}>
+            className="flex items-center gap-2 text-xs px-3 py-2 rounded-lg transition-all hover:text-[var(--text)] w-full text-left"
+            style={{ background: "#ffffff", border: "1px solid var(--border)", color: "var(--muted)" }}>
             <Terminal size={13} style={{ color: "var(--accent)" }} />
             <span>How to get {selectedTool.label} plan output</span>
             <span className="ml-auto">{showCommand ? "▲" : "▼"}</span>
@@ -355,8 +357,8 @@ export default function TerraformPage() {
             {showCommand && (
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden">
-                <pre className="mt-1 p-4 rounded-b-xl text-xs overflow-x-auto"
-                  style={{ background: "rgba(0,0,0,0.4)", color: "#22c55e", fontFamily: "var(--font-geist-mono)", border: "1px solid var(--border)", borderTop: "none" }}>
+                <pre className="code-sample mt-1 p-4 rounded-b-xl text-xs overflow-x-auto"
+                  style={{ fontFamily: "var(--font-geist-mono)", border: "1px solid var(--border)", borderTop: "none" }}>
                   {selectedTool.command}
                 </pre>
               </motion.div>
@@ -366,7 +368,7 @@ export default function TerraformPage() {
 
         {/* Disclaimer */}
         <div className="flex items-start gap-3 px-4 py-3 rounded-xl mb-5 text-xs"
-          style={{ background: "rgba(14,165,233,0.06)", border: "1px solid rgba(14,165,233,0.2)", color: "var(--muted)" }}>
+          style={{ background: "#eaf2ef", border: "1px solid var(--border)", color: "var(--muted)" }}>
           <ShieldCheck size={14} className="shrink-0 mt-0.5" style={{ color: "var(--accent)" }} />
           <span>Your data is <strong className="text-white">never stored or logged</strong>. Content is sent directly to AI for real-time analysis and discarded immediately. Do not paste credentials or secrets. <a href="/terms" className="hover:text-white underline transition-colors">Terms of Use</a></span>
         </div>
@@ -382,8 +384,8 @@ export default function TerraformPage() {
               <span className="ml-2 text-xs" style={{ color: "var(--muted)", fontFamily: "var(--font-geist-mono)" }}>{selectedTool.label} plan output</span>
             </div>
             <button onClick={() => setPlan(selectedTool.sample)}
-              className="text-xs px-2 py-1 rounded transition-all hover:text-white"
-              style={{ color: "var(--muted)", background: "rgba(255,255,255,0.04)" }}>
+              className="text-xs px-2 py-1 rounded transition-all hover:text-[var(--accent)]"
+              style={{ color: "var(--muted)", background: "#f3f7f5" }}>
               Load sample
             </button>
           </div>
@@ -392,20 +394,19 @@ export default function TerraformPage() {
             onChange={(e) => setPlan(e.target.value)}
             placeholder={`Paste your ${selectedTool.label} plan output here...`}
             rows={12}
-            className="w-full p-4 text-sm resize-none outline-none"
+            className="code-editor w-full p-4 text-sm resize-none outline-none"
             style={{ background: "transparent", color: "var(--text)", fontFamily: "var(--font-geist-mono)", fontSize: "12px", lineHeight: "1.6" }}
           />
         </motion.div>
 
         <div className="flex items-center gap-3 mb-8">
           <button onClick={analyze} disabled={loading || !plan.trim()}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-medium text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
-            style={{ background: "var(--accent)" }}>
+            className="button-primary disabled:opacity-50 disabled:cursor-not-allowed">
             {loading ? <><Loader2 size={15} className="animate-spin" /> {LOADING_STEPS[loadingStep]}</> : <>Explain Plan <ArrowRight size={15} /></>}
           </button>
           {plan && (
             <button onClick={() => { setPlan(""); setResult(null); setError(""); }}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm transition-all hover:text-white glass"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm transition-all hover:text-[var(--accent)] glass"
               style={{ color: "var(--muted)" }}>
               <Trash2 size={13} /> Clear
             </button>
@@ -453,7 +454,7 @@ export default function TerraformPage() {
                   <h3 className="font-semibold text-white mb-4">Resource Changes</h3>
                   <div className="space-y-3">
                     {result.changes.map((c, i) => (
-                      <div key={i} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
+                      <div key={i} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "#f3f7f5" }}>
                         {actionIcons[c.action.toLowerCase()] || <Info size={14} />}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
@@ -479,7 +480,7 @@ export default function TerraformPage() {
                   <ul className="space-y-2">
                     {result.warnings.map((w, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm">
-                        <AlertTriangle size={14} className="mt-0.5 shrink-0" style={{ color: "#eab308" }} />
+                        <AlertTriangle size={14} className="mt-0.5 shrink-0" style={{ color: "var(--yellow)" }} />
                         <span style={{ color: "var(--muted)" }}>{w}</span>
                       </li>
                     ))}

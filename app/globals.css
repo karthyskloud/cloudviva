@@ -98,27 +98,6 @@ body {
   box-shadow: 0 16px 36px rgba(24, 55, 61, 0.14);
 }
 
-.tool-theme {
-  --bg: #07141b;
-  --surface: #10232b;
-  --border: #24404a;
-  --accent: #17a5a2;
-  --accent-glow: rgba(23, 165, 162, 0.22);
-  --accent-2: #54c3bc;
-  --green: #55c68a;
-  --red: #fa7770;
-  --yellow: #edc45c;
-  --text: #e4efec;
-  --muted: #9bb4b2;
-  min-height: 100vh;
-  color: var(--text);
-  background: var(--bg);
-}
-
-.tool-theme .text-white { color: #ffffff !important; }
-.tool-theme .glass { background: rgba(16, 35, 43, 0.92); border-color: var(--border); }
-.tool-theme .glow-border { border-color: rgba(23, 165, 162, 0.4); }
-
 .site-nav {
   position: sticky;
   top: 0;
@@ -175,16 +154,73 @@ body {
 .button-primary:hover { background: #9e4510; transform: translateY(-1px); }
 
 .learning-hero {
-  color: #ffffff;
-  background-color: #123a40;
-  background-image:
-    linear-gradient(90deg, rgba(12, 47, 53, 0.94) 0%, rgba(12, 47, 53, 0.84) 48%, rgba(12, 47, 53, 0.25) 100%),
-    url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2000&q=85");
-  background-position: center;
-  background-size: cover;
+  color: var(--text);
+  background-color: #ffffff;
+  background-image: radial-gradient(rgba(14, 104, 112, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
-.learning-hero .text-white { color: #ffffff !important; }
+.learning-hero__visual {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #eef5f1;
+  box-shadow: 16px 16px 0 #dbeae4;
+}
+
+.learning-hero__visual img,
+.training-hero__visual img,
+.page-illustration img { object-fit: contain; }
+
+.learning-hero__caption {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.96);
+  padding: 10px 14px;
+  color: var(--accent-2);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.learning-path-preview {
+  border-top: 2px solid var(--accent-2);
+  padding: 20px 4px 8px;
+}
+
+.training-hero__visual {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #eaf2ef;
+}
+
+.page-illustration {
+  position: relative;
+  width: min(100%, 360px);
+  aspect-ratio: 1.4;
+  overflow: hidden;
+  background: #eef5f1;
+}
+
+.page-illustration--wide { width: min(100%, 440px); }
+
+.service-hero-illustration {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1.4;
+  background: #eef5f1;
+}
 
 .site-container {
   width: min(100% - 40px, 1160px);
@@ -199,21 +235,22 @@ body {
   color: var(--muted);
 }
 
-.tool-theme .site-nav {
-  color: var(--text);
-  background: rgba(7, 20, 27, 0.96);
-  border-color: var(--border);
+.code-editor,
+.code-sample {
+  background: #17343a !important;
+  color: #e5f2ed !important;
+  border-color: #31565b !important;
 }
 
-.tool-theme .site-nav__link { color: var(--muted); }
-.tool-theme .site-nav__link:hover,
-.tool-theme .site-nav__link[aria-current="page"] { color: var(--text); background: rgba(23, 165, 162, 0.14); }
-.tool-theme .site-footer { background: #091a21; border-color: var(--border); }
-.tool-theme .button-primary { background: var(--accent); color: #ffffff !important; }
+.course-modules { border-left: 1px solid var(--border); }
+.course-module { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; border-bottom: 1px solid var(--border); padding: 20px 0; }
+.course-module:last-child { border-bottom: 0; }
+.course-module__number { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 50%; background: #eaf2ef; color: var(--accent-2); font: 600 12px var(--font-geist-mono); }
+.course-capstone { display: flex; gap: 12px; border-left: 3px solid var(--accent); background: #f3f7f5; padding: 16px; }
+.training-course { border-top: 1px solid var(--border); padding: 32px 0; }
 
 @media (max-width: 640px) {
   .site-container { width: min(100% - 32px, 1160px); }
-  .learning-hero { background-position: 60% center; }
 }
 
 @keyframes float {

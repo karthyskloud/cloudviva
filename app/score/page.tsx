@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Shield, Loader2, ArrowRight, AlertTriangle, CheckCircle, XCircle, Trash2, Upload, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -189,11 +190,11 @@ interface ScoreResult {
 }
 
 const gradeColors: Record<string, string> = {
-  A: "#22c55e",
-  B: "#0ea5e9",
-  C: "#eab308",
-  D: "#f97316",
-  F: "#ef4444",
+  A: "#18734c",
+  B: "#0e6870",
+  C: "#9a6810",
+  D: "#b95316",
+  F: "#b83b35",
 };
 
 const priorityClass: Record<Priority, string> = {
@@ -204,9 +205,9 @@ const priorityClass: Record<Priority, string> = {
 };
 
 const statusIcon = (s: Status) => {
-  if (s === "pass")  return <CheckCircle size={14} style={{ color: "#22c55e" }} />;
-  if (s === "warn")  return <AlertTriangle size={14} style={{ color: "#eab308" }} />;
-  return <XCircle size={14} style={{ color: "#ef4444" }} />;
+  if (s === "pass")  return <CheckCircle size={14} style={{ color: "#18734c" }} />;
+  if (s === "warn")  return <AlertTriangle size={14} style={{ color: "#9a6810" }} />;
+  return <XCircle size={14} style={{ color: "#b83b35" }} />;
 };
 
 const LOADING_STEPS = [
@@ -267,22 +268,22 @@ export default function ScorePage() {
   }
 
   const scoreColor = result
-    ? result.overallScore >= 90 ? "#22c55e"
-    : result.overallScore >= 70 ? "#0ea5e9"
-    : result.overallScore >= 50 ? "#eab308"
-    : result.overallScore >= 30 ? "#f97316"
-    : "#ef4444"
+    ? result.overallScore >= 90 ? "#18734c"
+    : result.overallScore >= 70 ? "#0e6870"
+    : result.overallScore >= 50 ? "#9a6810"
+    : result.overallScore >= 30 ? "#b95316"
+    : "#b83b35"
     : "var(--muted)";
 
   return (
-    <div className="tool-theme flex min-h-screen flex-col">
+    <div className="site-page flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 pt-28 pb-16">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 grid grid-cols-[minmax(0,1fr)_88px] items-center gap-3 sm:grid-cols-[minmax(0,1fr)_220px] sm:gap-6">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-              style={{ background: "rgba(14,165,233,0.15)", border: "1px solid rgba(14,165,233,0.3)", color: "var(--accent)" }}>
+              style={{ background: "#eaf2ef", border: "1px solid var(--border)", color: "var(--accent-2)" }}>
               <Shield size={18} />
             </div>
             <div>
@@ -290,10 +291,11 @@ export default function ScorePage() {
               <p className="text-sm" style={{ color: "var(--muted)" }}>Paste any DevOps config — get a security score with actionable fixes</p>
             </div>
           </div>
+          <Image src="/illustrations/security-score.png" alt="Illustration of a security shield and assessment checklist" width={220} height={156} priority sizes="(max-width: 640px) 88px, 220px" className="h-auto w-[88px] sm:w-[220px]" />
         </motion.div>
 
         {/* Disclaimer */}
-        <div className="flex items-start gap-3 px-4 py-3 rounded-xl mb-5 text-xs" style={{ background: "rgba(14,165,233,0.06)", border: "1px solid rgba(14,165,233,0.2)", color: "var(--muted)" }}>
+        <div className="flex items-start gap-3 px-4 py-3 rounded-xl mb-5 text-xs" style={{ background: "#eaf2ef", border: "1px solid var(--border)", color: "var(--muted)" }}>
           <ShieldCheck size={14} className="shrink-0 mt-0.5" style={{ color: "var(--accent)" }} />
           <span>Your data is <strong className="text-white">never stored or logged</strong>. Content is sent directly to AI for real-time analysis and discarded immediately. Do not paste credentials or secrets. <a href="/terms" className="hover:text-white underline transition-colors">Terms of Use</a></span>
         </div>
@@ -305,9 +307,9 @@ export default function ScorePage() {
             <button key={t.value} onClick={() => setType(t.value)}
               className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
               style={{
-                background: type === t.value ? "rgba(14,165,233,0.2)" : "rgba(255,255,255,0.04)",
-                border: `1px solid ${type === t.value ? "rgba(14,165,233,0.5)" : "var(--border)"}`,
-                color: type === t.value ? "white" : "var(--muted)",
+                background: type === t.value ? "rgba(185,83,22,0.1)" : "#ffffff",
+                border: `1px solid ${type === t.value ? "rgba(185,83,22,0.45)" : "var(--border)"}`,
+                color: type === t.value ? "var(--text)" : "var(--muted)",
               }}>
               {t.label}
             </button>
@@ -325,8 +327,8 @@ export default function ScorePage() {
               <span className="ml-2 text-xs" style={{ color: "var(--muted)", fontFamily: "var(--font-geist-mono)" }}>{type}</span>
             </div>
             <button onClick={() => setContent(SAMPLES[type] || "")}
-              className="text-xs px-2 py-1 rounded transition-all hover:text-white"
-              style={{ color: "var(--muted)", background: "rgba(255,255,255,0.04)" }}>
+              className="text-xs px-2 py-1 rounded transition-all hover:text-[var(--accent)]"
+              style={{ color: "var(--muted)", background: "#f3f7f5" }}>
               Load sample
             </button>
           </div>
@@ -335,7 +337,7 @@ export default function ScorePage() {
             onChange={(e) => setContent(e.target.value)}
             placeholder={`Paste your ${type} here...`}
             rows={12}
-            className="w-full p-4 text-sm resize-none outline-none"
+            className="code-editor w-full p-4 text-sm resize-none outline-none"
             style={{
               background: "transparent",
               color: "var(--text)",
@@ -348,13 +350,12 @@ export default function ScorePage() {
 
         <div className="flex items-center gap-3 mb-8">
           <button onClick={analyze} disabled={loading || !content.trim()}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-medium text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
-            style={{ background: "var(--accent)" }}>
+            className="button-primary disabled:opacity-50 disabled:cursor-not-allowed">
             {loading ? <><Loader2 size={15} className="animate-spin" /> {LOADING_STEPS[loadingStep]}</> : <>Get Security Score <ArrowRight size={15} /></>}
           </button>
           {content && (
             <button onClick={() => { setContent(""); setResult(null); setError(""); }}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm transition-all hover:text-white glass"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm transition-all hover:text-[var(--accent)] glass"
               style={{ color: "var(--muted)" }}>
               <Trash2 size={13} /> Clear
             </button>
@@ -380,7 +381,7 @@ export default function ScorePage() {
                 <div className="flex items-start gap-6">
                   <div className="relative w-24 h-24 shrink-0">
                     <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                      <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="2.5" />
+                      <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--border)" strokeWidth="2.5" />
                       <circle cx="18" cy="18" r="15.9" fill="none" stroke={scoreColor} strokeWidth="2.5"
                         strokeDasharray={`${result.overallScore} 100`} strokeLinecap="round" />
                     </svg>
@@ -429,15 +430,15 @@ export default function ScorePage() {
                             {statusIcon(cat.status)}
                             <span className="text-white font-medium">{cat.name}</span>
                           </div>
-                          <span className="text-sm font-medium" style={{ color: cat.score >= 70 ? "#22c55e" : cat.score >= 40 ? "#eab308" : "#ef4444" }}>
+                          <span className="text-sm font-medium" style={{ color: cat.score >= 70 ? "#18734c" : cat.score >= 40 ? "#9a6810" : "#b83b35" }}>
                             {cat.score}/100
                           </span>
                         </div>
-                        <div className="w-full h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+                        <div className="w-full h-1.5 rounded-full" style={{ background: "var(--border)" }}>
                           <div className="h-full rounded-full transition-all"
                             style={{
                               width: `${cat.score}%`,
-                              background: cat.score >= 70 ? "#22c55e" : cat.score >= 40 ? "#eab308" : "#ef4444",
+                              background: cat.score >= 70 ? "#18734c" : cat.score >= 40 ? "#9a6810" : "#b83b35",
                             }} />
                         </div>
                         {cat.findings?.length > 0 && (
@@ -461,7 +462,7 @@ export default function ScorePage() {
                   </h3>
                   <div className="space-y-3">
                     {result.fixes.map((fix, i) => (
-                      <div key={i} className="p-4 rounded-xl" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}>
+                      <div key={i} className="p-4 rounded-xl" style={{ background: "#f3f7f5", border: "1px solid var(--border)" }}>
                         <div className="flex items-center gap-2 mb-1.5">
                           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityClass[fix.priority]}`}>
                             {fix.priority}
@@ -470,8 +471,8 @@ export default function ScorePage() {
                         </div>
                         <p className="text-xs leading-relaxed" style={{ color: "var(--muted)" }}>{fix.description}</p>
                         {fix.code && (
-                          <pre className="mt-2 p-2.5 rounded-lg text-xs overflow-x-auto"
-                            style={{ background: "rgba(0,0,0,0.4)", color: "#22c55e", fontFamily: "var(--font-geist-mono)" }}>
+                          <pre className="code-sample mt-2 p-2.5 rounded-lg text-xs overflow-x-auto"
+                            style={{ fontFamily: "var(--font-geist-mono)" }}>
                             {fix.code}
                           </pre>
                         )}

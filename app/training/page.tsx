@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, BookOpen, CalendarDays, CheckCircle2, Cloud, GitBranch, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { trainingTracks, upcomingCohorts } from "@/lib/training";
+import { trainingReferences, trainingTracks, upcomingCohorts } from "@/lib/training";
 
 export const metadata: Metadata = {
   title: "Cloud & DevOps Training",
@@ -41,17 +42,22 @@ export default function TrainingPage() {
       <Navbar />
       <main className="flex-1">
         <section className="training-intro">
-          <div className="site-container py-16 sm:py-20">
-            <p className="section-eyebrow">CloudViva learning</p>
-            <h1 className="mt-3 max-w-4xl text-4xl font-bold leading-tight text-[var(--text)] sm:text-5xl">
-              Cloud and DevOps skills, built one practical step at a time.
-            </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[var(--muted)]">
-              Start with cloud concepts, build a first delivery workflow, then learn to manage infrastructure changes safely. No existing pipeline or platform team required.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="#cohorts" className="button-primary">See upcoming batches <ArrowRight size={16} /></Link>
-              <Link href="#learning-paths" className="inline-flex min-h-11 items-center gap-2 font-semibold text-[var(--accent-2)]">Browse the curriculum <BookOpen size={16} /></Link>
+          <div className="site-container grid items-center gap-8 py-12 sm:grid-cols-[1.05fr_0.95fr] sm:py-16 lg:gap-10">
+            <div>
+              <p className="section-eyebrow">CloudViva learning</p>
+              <h1 className="mt-3 max-w-3xl text-4xl font-bold leading-tight text-[var(--text)] lg:text-5xl">
+                From cloud basics to your first confident release.
+              </h1>
+              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[var(--muted)]">
+                Follow structured paths with prerequisites, sequenced modules, hands-on labs, and a practical capstone.
+              </p>
+              <div className="mt-8 flex flex-col items-start gap-3 lg:flex-row">
+                <Link href="#cohorts" className="button-primary whitespace-nowrap">See upcoming batches <ArrowRight size={16} /></Link>
+                <Link href="#learning-paths" className="inline-flex min-h-11 items-center gap-2 whitespace-nowrap px-2 font-semibold text-[var(--accent-2)]">Browse the curriculum <BookOpen size={16} /></Link>
+              </div>
+            </div>
+            <div className="training-hero__visual">
+              <Image src="/illustrations/learning-paths.png" alt="Illustrated learning path progressing through four cloud and DevOps stages" fill priority sizes="(max-width: 1024px) 100vw, 45vw" />
             </div>
           </div>
         </section>
@@ -92,22 +98,38 @@ export default function TrainingPage() {
 
             <div className="mt-8 space-y-4">
               {trainingTracks.map((track) => (
-                <article id={track.id} key={track.id} className="learning-card grid gap-6 scroll-mt-8 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+                <article id={track.id} key={track.id} className="training-course scroll-mt-8">
                   <div>
-                    <p className="font-mono text-sm font-semibold text-[var(--accent)]">{track.number} <span className="ml-2 font-sans font-medium text-[var(--accent-2)]">{track.level}</span></p>
-                    <h3 className="mt-3 text-2xl font-bold text-[var(--text)]">{track.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{track.summary}</p>
-                    <p className="mt-5 border-l-2 border-[var(--accent)] pl-4 text-sm leading-relaxed text-[var(--text)]"><strong>Practice outcome:</strong> {track.outcome}</p>
+                    <p className="font-mono text-sm font-semibold text-[var(--accent)]">COURSE {track.number}</p>
+                    <div className="mt-3 flex flex-col justify-between gap-4 md:flex-row md:items-start">
+                      <div>
+                        <h3 className="text-2xl font-bold text-[var(--text)]">{track.title}</h3>
+                        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">{track.summary}</p>
+                      </div>
+                      <Link href={`/contact?service=training-interest&course=${track.id}`} className="button-primary shrink-0 text-sm">Ask about this course <ArrowRight size={15} /></Link>
+                    </div>
+                    <p className="mt-5 rounded-md bg-white px-4 py-3 text-sm leading-relaxed text-[var(--muted)]"><strong className="text-[var(--text)]">Best for:</strong> {track.audience}<br /><strong className="text-[var(--text)]">Before you start:</strong> {track.prerequisites}</p>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-[var(--text)]">What you’ll work through</h4>
-                    <ul className="mt-3 space-y-3">
-                      {track.topics.map((topic) => (
-                        <li key={topic} className="flex items-start gap-3 text-sm leading-relaxed text-[var(--muted)]">
-                          <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-[var(--accent-2)]" />{topic}
+                    <h4 className="text-sm font-semibold uppercase tracking-wide text-[var(--accent-2)]">Modules and hands-on labs</h4>
+                    <ol className="course-modules mt-4">
+                      {track.modules.map((module, index) => (
+                        <li key={module.title} className="course-module">
+                          <span className="course-module__number">{String(index + 1).padStart(2, "0")}</span>
+                          <div className="min-w-0">
+                            <h5 className="font-semibold text-[var(--text)]">{module.title}</h5>
+                            <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1">
+                              {module.topics.map((topic) => <li key={topic} className="text-sm leading-relaxed text-[var(--muted)]">{topic}</li>)}
+                            </ul>
+                            <p className="mt-3 text-sm leading-relaxed"><strong className="text-[var(--accent)]">Lab:</strong> <span className="text-[var(--text)]">{module.lab}</span></p>
+                          </div>
                         </li>
                       ))}
-                    </ul>
+                    </ol>
+                    <div className="course-capstone mt-6">
+                      <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-[var(--accent-2)]" />
+                      <p className="text-sm leading-relaxed text-[var(--text)]"><strong>Capstone deliverable:</strong> {track.capstone}</p>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -145,6 +167,25 @@ export default function TrainingPage() {
             <div className="flex gap-3"><Cloud size={20} className="mt-1 shrink-0 text-[var(--accent-2)]" /><p className="text-sm leading-relaxed text-[var(--muted)]"><strong className="text-[var(--text)]">Provider-aware, not provider-locked.</strong> Learn concepts first, then see how they map to a specific platform.</p></div>
             <div className="flex gap-3"><GitBranch size={20} className="mt-1 shrink-0 text-[var(--accent-2)]" /><p className="text-sm leading-relaxed text-[var(--muted)]"><strong className="text-[var(--text)]">Start from zero.</strong> DevOps foundations do not assume a working CI/CD pipeline already exists.</p></div>
             <div className="flex gap-3"><ShieldCheck size={20} className="mt-1 shrink-0 text-[var(--accent-2)]" /><p className="text-sm leading-relaxed text-[var(--muted)]"><strong className="text-[var(--text)]">Practice safely.</strong> Examples use non-production workflows; credentials and production access are handled separately.</p></div>
+          </div>
+        </section>
+
+        <section className="site-container py-12">
+          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div className="max-w-sm">
+              <p className="section-eyebrow">Go deeper</p>
+              <h2 className="mt-2 text-2xl font-bold text-[var(--text)]">Official guides behind the learning paths.</h2>
+            </div>
+            <ul className="grid flex-1 gap-x-8 gap-y-4 sm:grid-cols-2 md:max-w-2xl">
+              {trainingReferences.map((reference) => (
+                <li key={reference.href} className="border-t border-[var(--border)] pt-3">
+                  <a href={reference.href} target="_blank" rel="noreferrer" className="font-semibold text-[var(--accent-2)] hover:text-[var(--accent)]">
+                    {reference.label} <span aria-hidden="true">↗</span>
+                  </a>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--muted)]">{reference.note}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 

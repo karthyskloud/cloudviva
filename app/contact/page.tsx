@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
@@ -26,6 +27,9 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
             <p className="mt-5 max-w-lg text-base leading-relaxed" style={{ color: "var(--muted)" }}>
               Ask about a training cohort, a cloud learning path, or hands-on support. We’ll reply with the relevant next steps.
             </p>
+            <div className="page-illustration page-illustration--wide mt-8">
+              <Image src="/illustrations/contact-cloudviva.png" alt="Illustration of a message connected to CloudViva" fill priority sizes="(max-width: 1024px) 100vw, 38vw" />
+            </div>
             <div className="mt-10 border-t pt-5" style={{ borderColor: "var(--border)" }}>
               <p className="max-w-md text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
                 Don’t include credentials, API keys, Terraform state, or confidential configuration in this form.

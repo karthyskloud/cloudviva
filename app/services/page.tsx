@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Boxes, Cloud, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -71,17 +72,22 @@ export default function ServicesPage() {
       <Navbar />
       <main className="flex-1">
         <section className="grid-bg border-b" style={{ borderColor: "var(--border)" }}>
-          <div className="max-w-6xl mx-auto px-6 pt-32 pb-16">
-            <p className="text-sm font-medium" style={{ color: "var(--accent)" }}>CloudViva services</p>
-            <h1 className="mt-4 max-w-4xl text-4xl md:text-6xl font-bold leading-tight text-[var(--text)]">
-              Cloud infrastructure and DevOps support, scoped around the work you need done.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed" style={{ color: "var(--muted)" }}>
-              Practical support for startups and small teams: establish your first delivery pipeline, fix an infrastructure blocker, review cloud risks and costs, or build reusable automation.
-            </p>
-            <Link href="/contact" className="button-primary mt-8">
-              Discuss a project <ArrowRight size={16} />
-            </Link>
+          <div className="site-container grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <p className="section-eyebrow">CloudViva services</p>
+              <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight text-[var(--text)] md:text-5xl">
+                Practical help to build, ship, and run your cloud.
+              </h1>
+              <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: "var(--muted)" }}>
+                From first CI pipelines to infrastructure reviews, get hands-on engineering support shaped around your team and stack.
+              </p>
+              <Link href="/contact" className="button-primary mt-7">
+                Discuss a project <ArrowRight size={16} />
+              </Link>
+            </div>
+            <div className="service-hero-illustration">
+              <Image src="/illustrations/cloud-services.png" alt="Illustration of a cloud connected to infrastructure and engineering tools" fill priority sizes="(max-width: 1024px) 100vw, 40vw" />
+            </div>
           </div>
         </section>
 
